@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class System {
+public class Main {
 
     private List<Student> students;
 }
