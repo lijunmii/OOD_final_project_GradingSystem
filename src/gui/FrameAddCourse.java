@@ -44,21 +44,21 @@ public class FrameAddCourse extends JFrame {
             if (textFieldCourseNum.getText().length() > 0 && textFieldCourseName.getText().length() > 0) {
                 String courseNum = textFieldCourseNum.getText();
                 String courseName = textFieldCourseName.getText();
-                if (!systemDatabase.courseNumExist(frameMainMenu.getClient().getUsername(), courseNum)) {
-                    Semester semester = new Semester();
-                    int year = Integer.parseInt((String) comboBoxYear.getSelectedItem());
-                    switch (comboBoxSeason.getSelectedIndex()) {
-                        case 0: semester = new Semester(year, Season.Spring); break;
-                        case 1: semester = new Semester(year, Season.Summer); break;
-                        case 2: semester = new Semester(year, Season.Fall); break;
-                    }
+                Semester semester = new Semester();
+                int year = Integer.parseInt((String) comboBoxYear.getSelectedItem());
+                switch (comboBoxSeason.getSelectedIndex()) {
+                    case 0: semester = new Semester(year, Season.Spring); break;
+                    case 1: semester = new Semester(year, Season.Summer); break;
+                    case 2: semester = new Semester(year, Season.Fall); break;
+                }
+                if (!systemDatabase.courseExist(frameMainMenu.getClient().getUsername(), courseNum, semester.toString())) {
                     systemDatabase.addCourse(frameMainMenu.getClient().getUsername(), courseNum, courseName, semester);
                     frameMainMenu.updateData();
                     frameMainMenu.updateTable();
                     JOptionPane.showMessageDialog(this, "Course added.", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                     dispose();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Course number already exists!", "EXISTED", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Course already exists!", "EXISTED", JOptionPane.WARNING_MESSAGE);
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Empty input!", "MISSING CONTENT", JOptionPane.INFORMATION_MESSAGE);

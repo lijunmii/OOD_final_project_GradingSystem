@@ -43,4 +43,9 @@ public class Course {
         setCourseNum(courseNum);
         setCourseName(courseName);
     }
+
+    @Override
+    public String toString() {
+        return courseNum + ", " + courseName + ", " + semester.toString();
+    }
 }

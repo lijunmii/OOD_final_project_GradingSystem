@@ -31,16 +31,27 @@ public class Client {
         courses.add(new Course(courseNum, courseName, semester));
     }
 
-    public void delCourse(List<String> courseNums) {
+    public void delCourse(List<String> courseNums, List<String> semesters) {
         Iterator<Course> iterator = courses.iterator();
         while (iterator.hasNext()) {
             Course course = iterator.next();
-            for (String courseNum : courseNums) {
-                if (course.getCourseNum().equals(courseNum)) {
+            for (int i = 0; i < courseNums.size(); i++) {
+                String courseNum = courseNums.get(i);
+                String semester = semesters.get(i);
+                if (course.getCourseNum().equals(courseNum) && course.getSemester().toString().equals(semester)) {
                     iterator.remove();
                 }
             }
         }
+    }
+
+    public Course getCourse(String courseNum, String semester) {
+        for (Course course : courses) {
+            if (course.getCourseNum().equals(courseNum) && course.getSemester().toString().equals(semester)) {
+                return course;
+            }
+        }
+        return null;
     }
 
     public void updateCourseInfo(int courseIndex, String courseNum, String courseName) {

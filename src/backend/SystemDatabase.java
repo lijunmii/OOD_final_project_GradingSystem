@@ -53,11 +53,9 @@ public class SystemDatabase {
         return false;
     }
 
-    public boolean courseNumExist(String username, String courseNum) {
-        for (Course course : getClient(username).getCourses()) {
-            if (course.getCourseNum().equals(courseNum)) {
-                return true;
-            }
+    public boolean courseExist(String username, String courseNum, String semester) {
+        if (getClient(username).getCourse(courseNum, semester) != null) {
+            return true;
         }
         return false;
     }
@@ -85,8 +83,8 @@ public class SystemDatabase {
         save2Database();
     }
 
-    public void delCourse(String username, List<String> courseNums) {
-        getClient(username).delCourse(courseNums);
+    public void delCourse(String username, List<String> courseNums, List<String> semesters) {
+        getClient(username).delCourse(courseNums, semesters);
 
         //todo: write clients into db here
         save2Database();

@@ -117,9 +117,12 @@ public class FrameMainMenu extends JFrame {
             if (!subWindowExist()) {
                 if (login) {
                     String courseNum = (String) listCourses.getValueAt(listCourses.getSelectedRow(), 0);
-                    frameCourse = new FrameCourse(this, systemDatabase, courseNum);
+                    String semester = listCourses.getValueAt(listCourses.getSelectedRow(), 2).toString();
+                    Course course = client.getCourse(courseNum, semester);
+                    frameCourse = new FrameCourse(this, systemDatabase, course);
                     frameCourse.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     frameCourse.setVisible(true);
+                    System.out.println(course.toString());
                 } else {
                     JOptionPane.showMessageDialog(this, "Please login first.", "NO LOGIN", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -141,18 +144,23 @@ public class FrameMainMenu extends JFrame {
         buttonDelCourse.addActionListener(e -> { // delete course
             if (!subWindowExist()) {
                 if (login) {
-                    int[] rows = listCourses.getSelectedRows();
-                    List<String> courseNums = new ArrayList<>();
-                    for (int i = 0; i < rows.length; i++) {
-                        courseNums.add((String) listCourses.getValueAt(rows[i], 0));
-                        // System.out.println((String) listCourses.getValueAt(rows[i], 0));
-                    }
-                    int result = JOptionPane.showConfirmDialog(null, "Delete course(s)?", "CONFIRM", JOptionPane.YES_NO_OPTION);
-                    if (result == JOptionPane.YES_OPTION) {
-                        systemDatabase.delCourse(client.getUsername(), courseNums);
-                        updateData();
-                        updateTable();
-                        JOptionPane.showMessageDialog(this, "Course(s) deleted.", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                    if (listCourses.getRowCount() > 0) {
+                        int[] rows = listCourses.getSelectedRows();
+                        List<String> courseNums = new ArrayList<>();
+                        List<String> semesters = new ArrayList<>();
+                        for (int i = 0; i < rows.length; i++) {
+                            courseNums.add((String) listCourses.getValueAt(rows[i], 0));
+                            semesters.add(listCourses.getValueAt(rows[i], 2).toString());
+                        }
+                        int result = JOptionPane.showConfirmDialog(null, "Delete course(s)?", "CONFIRM", JOptionPane.YES_NO_OPTION);
+                        if (result == JOptionPane.YES_OPTION) {
+                            systemDatabase.delCourse(client.getUsername(), courseNums, semesters);
+                            updateData();
+                            updateTable();
+                            JOptionPane.showMessageDialog(this, "Course(s) deleted.", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this, "No course selected.", "NO COURSE", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } else {
                     JOptionPane.showMessageDialog(this, "Please login first.", "NO LOGIN", JOptionPane.INFORMATION_MESSAGE);
@@ -223,7 +231,9 @@ public class FrameMainMenu extends JFrame {
 
         listCourses.setModel(model);
         listCourses.setRowSorter(sorter);
-        listCourses.setRowSelectionInterval(0, 0);
+        if (listCourses.getRowCount() > 0) {
+            listCourses.setRowSelectionInterval(0, 0);
+        }
     }
 
     public void updateTable() {
