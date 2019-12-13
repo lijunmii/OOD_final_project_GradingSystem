@@ -91,4 +91,11 @@ public class SystemDatabase {
         //todo: write clients into db here
         save2Database();
     }
+
+    public void updateCourseInfo(String username, int courseIndex, String courseNum, String courseName) {
+        getClient(username).updateCourseInfo(courseIndex, courseNum, courseName);
+
+        //todo: write clients into db here
+        save2Database();
+    }
 }

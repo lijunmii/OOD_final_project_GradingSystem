@@ -38,4 +38,9 @@ public class Course {
     public void setSemester(Semester semester) {
         this.semester = semester;
     }
+
+    public void updateInfo(String courseNum, String courseName) {
+        setCourseNum(courseNum);
+        setCourseName(courseName);
+    }
 }

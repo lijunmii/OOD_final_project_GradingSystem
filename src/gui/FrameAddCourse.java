@@ -23,6 +23,8 @@ public class FrameAddCourse extends JFrame {
         comboBoxYear.addItem("2019");
         comboBoxYear.addItem("2020");
         comboBoxYear.addItem("2021");
+        comboBoxYear.addItem("2022");
+        comboBoxYear.addItem("2023");
         panel.add(comboBoxYear);
 
         comboBoxSeason.addItem("Spring");

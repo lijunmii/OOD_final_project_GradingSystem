@@ -12,6 +12,7 @@ import java.util.List;
 public class FrameMainMenu extends JFrame {
     private Client client = null;
     private boolean login = false;
+    private SystemDatabase systemDatabase;
 
     private JPanel panel = new JPanel();
     private JPanel panel_2;
@@ -36,6 +37,7 @@ public class FrameMainMenu extends JFrame {
     private FrameAddCourse frameAddCourse = new FrameAddCourse();
 
     public FrameMainMenu(SystemDatabase systemDatabase) {
+        this.systemDatabase = systemDatabase;
         panel.setLayout(new BorderLayout());
 
         JPanel panel_1 = new JPanel(); {
@@ -210,7 +212,15 @@ public class FrameMainMenu extends JFrame {
                 return column == 2 ? false : true;
             }
         };
-        RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
+        model.addTableModelListener(e -> {
+            int row = e.getFirstRow();
+            String courseNum = (String) listCourses.getValueAt(listCourses.getEditingRow(), 0);
+            String courseName = (String) listCourses.getValueAt(listCourses.getEditingRow(), 1);
+            String username = client.getUsername();
+            systemDatabase.updateCourseInfo(username, row, courseNum, courseName);
+        });
+        RowSorter<TableModel> sorter = new TableRowSorter<>(model);
+
         listCourses.setModel(model);
         listCourses.setRowSorter(sorter);
         listCourses.setRowSelectionInterval(0, 0);

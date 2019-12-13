@@ -42,4 +42,8 @@ public class Client {
             }
         }
     }
+
+    public void updateCourseInfo(int courseIndex, String courseNum, String courseName) {
+        courses.get(courseIndex).updateInfo(courseNum, courseName);
+    }
 }
