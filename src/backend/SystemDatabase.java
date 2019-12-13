@@ -42,7 +42,21 @@ public class SystemDatabase {
         return false;
     }
 
+    public boolean courseNumExist(String username, String courseNum) {
+        for (Course course : getClient(username).getCourses()) {
+            if (course.getCourseNum().equals(courseNum)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // functions below write data
     public void register(String username, String password) {
         clients.add(new Client(username, password));
+    }
+
+    public void addCourse(String username, String courseNum, String courseName, Semester semester) {
+        getClient(username).addCourse(courseNum, courseName, semester);
     }
 }

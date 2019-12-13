@@ -6,8 +6,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class FrameMainMenu extends JFrame {
     private Client client = null;
@@ -114,7 +112,7 @@ public class FrameMainMenu extends JFrame {
         buttonOpenCourse.addActionListener(e -> { // open course page
             if (!subWindowExist()) {
                 if (login) {
-                    if (true) { //todo: judge selection
+                    if (true/*todo: get selected course number, course as parameter to frameCourse*/) {
                         frameCourse = new FrameCourse(client, systemDatabase);
                         frameCourse.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                         frameCourse.setVisible(true);
@@ -130,7 +128,9 @@ public class FrameMainMenu extends JFrame {
         buttonAddCourse.addActionListener(e -> { // add new course
             if (!subWindowExist()) {
                 if (login) {
-                    //todo
+                    frameAddCourse = new FrameAddCourse(client, systemDatabase);
+                    frameAddCourse.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frameAddCourse.setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(this, "Please login first.", "NO LOGIN", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -154,40 +154,48 @@ public class FrameMainMenu extends JFrame {
         labelRegister.setText("Select your courses below.");
         buttonRegister.setVisible(false);
         client = currentClient;
-        //todo: set course list
-//        courseData = new Object[client.getCourses().size()][3];
-//        for (int i = 0; i < client.getCourses().size(); i++) {
-//            Course course = client.getCourses().get(i);
-//            courseData[i][0] = course.getCourseNum();
-//            courseData[i][1] = course.getCourseName();
-//            courseData[i][2] = course.getSemester();
-//        }
 
-        courseData = new Object[3][3];
-        courseData[0][0] = "591";
-        courseData[0][1] = "OOD in java";
-        courseData[0][2] = new Semester();
+        courseData = new Object[client.getCourses().size()][3];
+        for (int i = 0; i < client.getCourses().size(); i++) {
+            Course course = client.getCourses().get(i);
+            courseData[i][0] = course.getCourseNum();
+            courseData[i][1] = course.getCourseName();
+            courseData[i][2] = course.getSemester();
+        }
 
-        courseData[1][0] = "651";
-        courseData[1][1] = "Distributed System";
-        courseData[1][2] = new Semester();
+//        courseData = new Object[5][3];
+//        courseData[0][0] = "CS591P1";
+//        courseData[0][1] = "OOD in Java";
+//        courseData[0][2] = new Semester(2019, Season.Spring);
+//
+//        courseData[1][0] = "CS651";
+//        courseData[1][1] = "Distributed System";
+//        courseData[1][2] = new Semester(2019, Season.Fall);
+//
+//        courseData[2][0] = "CS504";
+//        courseData[2][1] = "Data Tools";
+//        courseData[2][2] = new Semester(2019, Season.Summer);
+//
+//        courseData[3][0] = "CS640";
+//        courseData[3][1] = "AI";
+//        courseData[3][2] = new Semester(2018, Season.Fall);
+//
+//        courseData[4][0] = "CS542";
+//        courseData[4][1] = "Machine Learning";
+//        courseData[4][2] = new Semester(2018, Season.Spring);
 
-        courseData[2][0] = "504";
-        courseData[2][1] = "OOD in java";
-        courseData[2][2] = new Semester();
         listCourses = new JTable(courseData, columnNames);
 
-        TableModel model = new DefaultTableModel(courseData, columnNames);
+        TableModel model = new DefaultTableModel(courseData, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 2 ? false : true;
+            }
+        };
         RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
+        listCourses.setModel(model);
         listCourses.setRowSorter(sorter);
-
-        panel_2.removeAll();
-        panel_2.setLayout(new GridLayout(1, 1));
-        panel_2.setBorder(BorderFactory.createEtchedBorder());
-        scrollPaneCourses = new JScrollPane(listCourses);
-        scrollPaneCourses.setBorder(BorderFactory.createTitledBorder("Courses"));
-        panel_2.add(scrollPaneCourses);
-        panel_2.updateUI();
+        updateTable();
 
         login = true;
     }
@@ -201,6 +209,12 @@ public class FrameMainMenu extends JFrame {
 
         courseData = new Object[0][3];
         listCourses = new JTable(courseData, columnNames);
+        updateTable();
+
+        login = false;
+    }
+
+    private void updateTable() {
         panel_2.removeAll();
         panel_2.setLayout(new GridLayout(1, 1));
         panel_2.setBorder(BorderFactory.createEtchedBorder());
@@ -208,8 +222,6 @@ public class FrameMainMenu extends JFrame {
         scrollPaneCourses.setBorder(BorderFactory.createTitledBorder("Courses"));
         panel_2.add(scrollPaneCourses);
         panel_2.updateUI();
-
-        login = false;
     }
 
     private boolean subWindowExist() { // one sub window at the same time

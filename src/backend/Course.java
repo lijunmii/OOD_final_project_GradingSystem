@@ -5,8 +5,15 @@ import java.util.List;
 public class Course {
     private String courseNum;
     private String courseName;
-    private String semester;
+    private Semester semester;
+    private List<Assignment> assignments;
     private List<Student> students;
+
+    public Course(String courseNum, String courseName, Semester semester) {
+        this.courseNum = courseNum;
+        this.courseName = courseName;
+        this.semester = semester;
+    }
 
     public String getCourseNum() {
         return courseNum;
@@ -16,7 +23,7 @@ public class Course {
         return courseName;
     }
 
-    public String getSemester() {
+    public Semester getSemester() {
         return semester;
     }
 
@@ -28,7 +35,7 @@ public class Course {
         this.courseName = courseName;
     }
 
-    public void setSemester(String semester) {
+    public void setSemester(Semester semester) {
         this.semester = semester;
     }
 }

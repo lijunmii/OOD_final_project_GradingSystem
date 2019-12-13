@@ -11,7 +11,7 @@ public class FrameCourse extends JFrame {
         ;
 
         add(panel);
-        setSize(1200, 800);
+        setSize(1000, 800);
         setLocationRelativeTo(null);
         setResizable(false);
 

@@ -25,4 +25,8 @@ public class Client {
     public List<Course> getCourses() {
         return courses;
     }
+
+    public void addCourse(String courseNum, String courseName, Semester semester) {
+        courses.add(new Course(courseNum, courseName, semester));
+    }
 }
