@@ -2,18 +2,17 @@ package gui;
 
 import backend.*;
 import javax.swing.*;
-import java.awt.*;
 
 public class FrameAddCourse extends JFrame {
     private JPanel panel = new JPanel();
-    private JTextField textFieldCourseNum = new JTextField(8);
-    private JTextField textFieldCourseName = new JTextField(20);
+    private JTextField textFieldCourseNum = new JTextField(10);
+    private JTextField textFieldCourseName = new JTextField(18);
     private JComboBox comboBoxYear = new JComboBox();
     private JComboBox comboBoxSeason = new JComboBox();
     private JButton buttonAddCourse = new JButton("Add Course");
 
     FrameAddCourse() {}
-    FrameAddCourse(Client client, SystemDatabase systemDatabase) {
+    FrameAddCourse(FrameMainMenu frameMainMenu, SystemDatabase systemDatabase) {
 
         textFieldCourseNum.setBorder(BorderFactory.createTitledBorder("Course Number"));
         panel.add(textFieldCourseNum);
@@ -43,7 +42,7 @@ public class FrameAddCourse extends JFrame {
             if (textFieldCourseNum.getText().length() > 0 && textFieldCourseName.getText().length() > 0) {
                 String courseNum = textFieldCourseNum.getText();
                 String courseName = textFieldCourseName.getText();
-                if (!systemDatabase.courseNumExist(client.getUsername(), courseNum)) {
+                if (!systemDatabase.courseNumExist(frameMainMenu.getClient().getUsername(), courseNum)) {
                     Semester semester = new Semester();
                     int year = Integer.parseInt((String) comboBoxYear.getSelectedItem());
                     switch (comboBoxSeason.getSelectedIndex()) {
@@ -51,10 +50,9 @@ public class FrameAddCourse extends JFrame {
                         case 1: semester = new Semester(year, Season.Summer); break;
                         case 2: semester = new Semester(year, Season.Fall); break;
                     }
-                    systemDatabase.addCourse(client.getUsername(), courseNum, courseName, semester);
-
-                    // todo:refresh main menu course list
-
+                    systemDatabase.addCourse(frameMainMenu.getClient().getUsername(), courseNum, courseName, semester);
+                    frameMainMenu.updateData();
+                    frameMainMenu.updateTable();
                     JOptionPane.showMessageDialog(this, "Course added.", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                     dispose();
                 } else {

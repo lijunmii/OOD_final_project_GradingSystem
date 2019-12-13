@@ -128,7 +128,7 @@ public class FrameMainMenu extends JFrame {
         buttonAddCourse.addActionListener(e -> { // add new course
             if (!subWindowExist()) {
                 if (login) {
-                    frameAddCourse = new FrameAddCourse(client, systemDatabase);
+                    frameAddCourse = new FrameAddCourse(this, systemDatabase);
                     frameAddCourse.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     frameAddCourse.setVisible(true);
                 } else {
@@ -148,6 +148,14 @@ public class FrameMainMenu extends JFrame {
         });
     }
 
+    public void setClient(Client currentClient) {
+        client = currentClient;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
     public void successLogin(Client currentClient) {
         labelWelcome.setText("Welcome! You can");
         buttonLogin.setText("Logout");
@@ -155,46 +163,7 @@ public class FrameMainMenu extends JFrame {
         buttonRegister.setVisible(false);
         client = currentClient;
 
-        courseData = new Object[client.getCourses().size()][3];
-        for (int i = 0; i < client.getCourses().size(); i++) {
-            Course course = client.getCourses().get(i);
-            courseData[i][0] = course.getCourseNum();
-            courseData[i][1] = course.getCourseName();
-            courseData[i][2] = course.getSemester();
-        }
-
-//        courseData = new Object[5][3];
-//        courseData[0][0] = "CS591P1";
-//        courseData[0][1] = "OOD in Java";
-//        courseData[0][2] = new Semester(2019, Season.Spring);
-//
-//        courseData[1][0] = "CS651";
-//        courseData[1][1] = "Distributed System";
-//        courseData[1][2] = new Semester(2019, Season.Fall);
-//
-//        courseData[2][0] = "CS504";
-//        courseData[2][1] = "Data Tools";
-//        courseData[2][2] = new Semester(2019, Season.Summer);
-//
-//        courseData[3][0] = "CS640";
-//        courseData[3][1] = "AI";
-//        courseData[3][2] = new Semester(2018, Season.Fall);
-//
-//        courseData[4][0] = "CS542";
-//        courseData[4][1] = "Machine Learning";
-//        courseData[4][2] = new Semester(2018, Season.Spring);
-
-        listCourses = new JTable(courseData, columnNames);
-
-        TableModel model = new DefaultTableModel(courseData, columnNames) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column == 2 ? false : true;
-            }
-        };
-        RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
-        listCourses.setModel(model);
-        listCourses.setRowSorter(sorter);
+        updateData();
         updateTable();
 
         login = true;
@@ -214,7 +183,28 @@ public class FrameMainMenu extends JFrame {
         login = false;
     }
 
-    private void updateTable() {
+    public void updateData() {
+        courseData = new Object[client.getCourses().size()][3];
+        for (int i = 0; i < client.getCourses().size(); i++) {
+            Course course = client.getCourses().get(i);
+            courseData[i][0] = course.getCourseNum();
+            courseData[i][1] = course.getCourseName();
+            courseData[i][2] = course.getSemester();
+        }
+        listCourses = new JTable(courseData, columnNames);
+
+        TableModel model = new DefaultTableModel(courseData, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 2 ? false : true;
+            }
+        };
+        RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
+        listCourses.setModel(model);
+        listCourses.setRowSorter(sorter);
+    }
+
+    public void updateTable() {
         panel_2.removeAll();
         panel_2.setLayout(new GridLayout(1, 1));
         panel_2.setBorder(BorderFactory.createEtchedBorder());

@@ -12,7 +12,14 @@ public class SystemDatabase {
 
     public SystemDatabase(String testStr) {
         clients = new ArrayList<>();
-        clients.add(new Client("123", "123"));
+
+        Client client = new Client("123", "123");
+        client.addCourse("CS542", "Machine Learning", new Semester(2018, Season.Spring));
+        client.addCourse("CS504", "Data Tools", new Semester(2019, Season.Spring));
+        client.addCourse("CS651", "Distributed System", new Semester(2019, Season.Summer));
+        client.addCourse("CS591P1", "OOD in Java", new Semester(2018, Season.Fall));
+        client.addCourse("CS640", "Artificial Intelligence", new Semester(2019, Season.Fall));
+        clients.add(client);
     }
 
     public Client getClient(String username) {
