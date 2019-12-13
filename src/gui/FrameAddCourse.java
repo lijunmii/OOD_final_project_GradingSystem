@@ -52,6 +52,11 @@ public class FrameAddCourse extends JFrame {
                         case 2: semester = new Semester(year, Season.Fall); break;
                     }
                     systemDatabase.addCourse(client.getUsername(), courseNum, courseName, semester);
+
+                    // todo:refresh main menu course list
+
+                    JOptionPane.showMessageDialog(this, "Course added.", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
                 } else {
                     JOptionPane.showMessageDialog(this, "Course number already exists!", "EXISTED", JOptionPane.WARNING_MESSAGE);
                 }
