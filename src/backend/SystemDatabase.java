@@ -13,6 +13,7 @@ public class SystemDatabase {
     public SystemDatabase(String testStr) {
         clients = new ArrayList<>();
 
+        // for test
         Client client = new Client("123", "123");
         client.addCourse("CS542", "Machine Learning", new Semester(2018, Season.Spring));
         client.addCourse("CS504", "Data Tools", new Semester(2019, Season.Spring));
