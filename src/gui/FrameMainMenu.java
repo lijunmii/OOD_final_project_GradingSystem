@@ -114,13 +114,10 @@ public class FrameMainMenu extends JFrame {
         buttonOpenCourse.addActionListener(e -> { // open course page
             if (!subWindowExist()) {
                 if (login) {
-                    if (true/*todo judge course num*/) {
-                        frameCourse = new FrameCourse(this, systemDatabase);
-                        frameCourse.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                        frameCourse.setVisible(true);
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Please select a course.", "NO COURSE", JOptionPane.INFORMATION_MESSAGE);
-                    }
+                    String courseNum = (String) listCourses.getValueAt(listCourses.getSelectedRow(), 0);
+                    frameCourse = new FrameCourse(this, systemDatabase, courseNum);
+                    frameCourse.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frameCourse.setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(this, "Please login first.", "NO LOGIN", JOptionPane.INFORMATION_MESSAGE);
                 }

@@ -7,7 +7,7 @@ public class FrameCourse extends JFrame {
     private JPanel panel = new JPanel();
 
     FrameCourse() {}
-    FrameCourse(FrameMainMenu frameMainMenu, SystemDatabase systemDatabase) {
+    FrameCourse(FrameMainMenu frameMainMenu, SystemDatabase systemDatabase, String courseNum) {
         ;
 
         add(panel);

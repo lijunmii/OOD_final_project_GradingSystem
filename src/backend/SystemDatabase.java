@@ -20,6 +20,9 @@ public class SystemDatabase {
         client.addCourse("CS591P1", "OOD in Java", new Semester(2018, Season.Fall));
         client.addCourse("CS640", "Artificial Intelligence", new Semester(2019, Season.Fall));
         clients.add(client);
+
+        //todo: read clients from db here
+        readClients();
     }
 
     public Client getClient(String username) {
@@ -58,16 +61,33 @@ public class SystemDatabase {
         return false;
     }
 
-    // functions below write data
+    public void readClients() {
+        //todo: read clients from db
+    }
+
+    public void save2Database() {
+        //todo: save clients into db
+    }
+
+    // functions below will write data into db
     public void register(String username, String password) {
         clients.add(new Client(username, password));
+
+        //todo: write clients into db here
+        save2Database();
     }
 
     public void addCourse(String username, String courseNum, String courseName, Semester semester) {
         getClient(username).addCourse(courseNum, courseName, semester);
+
+        //todo: write clients into db here
+        save2Database();
     }
 
     public void delCourse(String username, List<String> courseNums) {
         getClient(username).delCourse(courseNums);
+
+        //todo: write clients into db here
+        save2Database();
     }
 }
