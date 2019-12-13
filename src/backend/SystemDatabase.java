@@ -66,4 +66,8 @@ public class SystemDatabase {
     public void addCourse(String username, String courseNum, String courseName, Semester semester) {
         getClient(username).addCourse(courseNum, courseName, semester);
     }
+
+    public void delCourse(String username, List<String> courseNums) {
+        getClient(username).delCourse(courseNums);
+    }
 }

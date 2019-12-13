@@ -6,6 +6,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FrameMainMenu extends JFrame {
     private Client client = null;
@@ -22,7 +24,7 @@ public class FrameMainMenu extends JFrame {
     private String[] columnNames = {"Course ID", "Course Name", "Semester"};
     private Object[][] courseData = new Object[0][3];
     private JTable listCourses = new JTable(courseData, columnNames);
-    private JScrollPane scrollPaneCourses = new JScrollPane();
+    private JScrollPane scrollPaneCourses;
 
     private JButton buttonOpenCourse = new JButton("Open course page");
     private JButton buttonAddCourse = new JButton("Add new course");
@@ -112,8 +114,8 @@ public class FrameMainMenu extends JFrame {
         buttonOpenCourse.addActionListener(e -> { // open course page
             if (!subWindowExist()) {
                 if (login) {
-                    if (true/*todo: get selected course number, course as parameter to frameCourse*/) {
-                        frameCourse = new FrameCourse(client, systemDatabase);
+                    if (true/*todo judge course num*/) {
+                        frameCourse = new FrameCourse(this, systemDatabase);
                         frameCourse.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                         frameCourse.setVisible(true);
                     } else {
@@ -140,7 +142,19 @@ public class FrameMainMenu extends JFrame {
         buttonDelCourse.addActionListener(e -> { // delete course
             if (!subWindowExist()) {
                 if (login) {
-                    //todo
+                    int[] rows = listCourses.getSelectedRows();
+                    List<String> courseNums = new ArrayList<>();
+                    for (int i = 0; i < rows.length; i++) {
+                        courseNums.add((String) listCourses.getValueAt(rows[i], 0));
+                        // System.out.println((String) listCourses.getValueAt(rows[i], 0));
+                    }
+                    int result = JOptionPane.showConfirmDialog(null, "Delete course(s)?", "CONFIRM", JOptionPane.YES_NO_OPTION);
+                    if (result == JOptionPane.YES_OPTION) {
+                        systemDatabase.delCourse(client.getUsername(), courseNums);
+                        updateData();
+                        updateTable();
+                        JOptionPane.showMessageDialog(this, "Course(s) deleted.", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                    }
                 } else {
                     JOptionPane.showMessageDialog(this, "Please login first.", "NO LOGIN", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -202,6 +216,7 @@ public class FrameMainMenu extends JFrame {
         RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);
         listCourses.setModel(model);
         listCourses.setRowSorter(sorter);
+        listCourses.setRowSelectionInterval(0, 0);
     }
 
     public void updateTable() {

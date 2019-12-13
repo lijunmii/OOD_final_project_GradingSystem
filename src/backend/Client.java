@@ -1,6 +1,7 @@
 package backend;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Client {
@@ -28,5 +29,17 @@ public class Client {
 
     public void addCourse(String courseNum, String courseName, Semester semester) {
         courses.add(new Course(courseNum, courseName, semester));
+    }
+
+    public void delCourse(List<String> courseNums) {
+        Iterator<Course> iterator = courses.iterator();
+        while (iterator.hasNext()) {
+            Course course = iterator.next();
+            for (String courseNum : courseNums) {
+                if (course.getCourseNum().equals(courseNum)) {
+                    iterator.remove();
+                }
+            }
+        }
     }
 }
