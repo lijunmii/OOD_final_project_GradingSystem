@@ -170,7 +170,10 @@ public class FrameCourse extends JFrame {
             }
             s.setGrades(lg);
             students.add(s);
+//            System.out.println(s.getStudentId());
+//            System.out.println(s.getStudentName());
         }
+        course.setStudents(students);
     }
 
     public void updateGradeTable() {

@@ -22,6 +22,10 @@ public class Course {
         this.assignments = l;
     }
 
+    public void setStudents(List<Student> S) {
+        this.students = S;
+    }
+
     public String getCourseNum() {
         return courseNum;
     }
