@@ -7,7 +7,7 @@ public class Assignment {
     private Double weight;
     private String comment;
 
-    Assignment(String category, String name, double fullScore, double weight) {
+    public Assignment(String category, String name, double fullScore, double weight) {
         this.category = category;
         this.name = name;
         this.fullScore = fullScore;

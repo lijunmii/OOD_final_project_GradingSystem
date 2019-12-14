@@ -18,6 +18,10 @@ public class Course {
         students = new ArrayList<>();
     }
 
+    public void setAssignments(List<Assignment> l) {
+        this.assignments = l;
+    }
+
     public String getCourseNum() {
         return courseNum;
     }

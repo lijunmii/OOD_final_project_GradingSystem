@@ -1,14 +1,26 @@
 package gui;
 
 import backend.*;
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
+
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.rmi.server.ExportException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class FrameCourse extends JFrame {
     private SystemDatabase systemDatabase;
@@ -101,7 +113,64 @@ public class FrameCourse extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        ;
+        //import files
+        buttonImportExcel.addActionListener(e -> {
+            JFileChooser j = new JFileChooser();
+            FileFilter filter = new FileNameExtensionFilter("Excel file", "xls", "xlsx");
+            int option = j.showOpenDialog(this);
+            int result= j.showOpenDialog(this);
+            if(result==JFileChooser.APPROVE_OPTION){
+                File file=j.getSelectedFile();
+                try {
+                    extract(file,course);
+                } catch (IOException i){
+                    System.out.println("IOEXCEPTION");
+
+                } catch (BiffException b) {
+                    System.out.println("BiffException");
+                }
+            }
+
+        });
+    }
+
+    public void extract(File f, Course course) throws BiffException, IOException {
+        Workbook workbook = Workbook.getWorkbook(f);
+        Sheet sheet = workbook.getSheet(0);
+        System.out.println("Rows: "+ sheet.getRows());
+        System.out.println("Cols: "+ sheet.getColumns());
+        List<Assignment> l = new ArrayList<Assignment>();
+        for (int i = 3; i<sheet.getColumns(); i++) {
+            Cell cell = sheet.getCell(i,0);
+
+            String[] array = cell.getContents().split(" ");
+            System.out.println(array[0]);
+            Assignment a = new Assignment(array[0],array[1],
+                    Double.parseDouble(array[2]),Double.parseDouble(array[3]));
+            l.add(a);
+        }
+        course.setAssignments(l);
+        List<Student> students = new ArrayList<>();
+        for(int i = 1;i<sheet.getRows();i++) {
+            List<String> ls = new ArrayList<>();
+            List<Grade> lg = new ArrayList<>();
+            for ( int j = 0; j<sheet.getColumns();j++) {
+                Cell cell = sheet.getCell(j,i);
+                ls.add(cell.getContents());
+            }
+            String studentID = ls.get(0);
+            String studentName = ls.get(1);
+            Student s = new Student(studentID,studentName);
+            s.setType(ls.get(2));
+            for(int x = 3; x <ls.size(); x++) {
+                Double score = Double.parseDouble(ls.get(x));
+                Double fullScore = course.getAssignments().get(x-3).getFullScore();
+                Grade g = new Grade(score, fullScore);
+                lg.add(g);
+            }
+            s.setGrades(lg);
+            students.add(s);
+        }
     }
 
     public void updateGradeTable() {

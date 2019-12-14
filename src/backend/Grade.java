@@ -5,7 +5,7 @@ public class Grade {
     private Double fullScore;
     private String comment;
 
-    Grade(double score, double fullScore) {
+    public Grade(double score, double fullScore) {
         this.score = score;
         this.fullScore = fullScore;
     }
