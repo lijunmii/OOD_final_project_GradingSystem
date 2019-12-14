@@ -15,13 +15,13 @@ public class FrameMainMenu extends JFrame {
     private SystemDatabase systemDatabase;
 
     private JPanel panel = new JPanel();
-    private JPanel panel_2;
 
     private JLabel labelWelcome = new JLabel("Welcome! Please", JLabel.CENTER);
     private JButton buttonLogin = new JButton("Login");
     private JLabel labelRegister = new JLabel("Not enrolled yet?", JLabel.CENTER);
     private JButton buttonRegister = new JButton("Register");
 
+    private JPanel panel_2;
     private String[] columnNames = {"Course ID", "Course Name", "Semester"};
     private Object[][] courseData = new Object[0][3];
     private JTable listCourses = new JTable(courseData, columnNames);
@@ -122,7 +122,6 @@ public class FrameMainMenu extends JFrame {
                     frameCourse = new FrameCourse(this, systemDatabase, course);
                     frameCourse.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     frameCourse.setVisible(true);
-                    System.out.println(course.toString());
                 } else {
                     JOptionPane.showMessageDialog(this, "Please login first.", "NO LOGIN", JOptionPane.INFORMATION_MESSAGE);
                 }
