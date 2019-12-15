@@ -225,6 +225,7 @@ public class FrameMainMenu extends JFrame {
             String courseName = (String) listCourses.getValueAt(listCourses.getEditingRow(), 1);
             String username = client.getUsername();
             systemDatabase.updateCourseInfo(username, row, courseNum, courseName);
+            //listCourses.changeSelection(listCourses.getEditingRow(), listCourses.getEditingColumn(), false, false);
         });
         RowSorter<TableModel> sorter = new TableRowSorter<>(model);
 

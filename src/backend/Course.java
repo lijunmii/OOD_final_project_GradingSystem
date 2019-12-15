@@ -73,6 +73,10 @@ public class Course {
         setCourseName(courseName);
     }
 
+    public void updateGrade(int studentIndex, int assignmentIndex, Double newScore) {
+        students.get(studentIndex).getGrades().get(assignmentIndex).setScore(newScore);
+    }
+
     public void importExcel(File f) {
         Workbook workbook = null;
         try {
@@ -105,7 +109,12 @@ public class Course {
             Student s = new Student(studentID, studentName);
             s.setType(ls.get(2));
             for (int x = 3; x < ls.size(); x++) {
-                Double score = Double.parseDouble(ls.get(x));
+                Double score;
+                if (Tools.isNumeric(ls.get(x))) {
+                    score = Double.parseDouble(ls.get(x));
+                } else {
+                    score = 0.0;
+                }
                 Double fullScore = getAssignments().get(x - 3).getFullScore();
                 Grade g = new Grade(score, fullScore);
                 lg.add(g);

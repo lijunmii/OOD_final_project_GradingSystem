@@ -200,11 +200,18 @@ public class FrameCourse extends JFrame {
 //                return Number.class;
 //            }
         };
-        model.addTableModelListener(e -> {
-            //todo: update grade after editing
-            //int row = e.getFirstRow();
-            //String newScore = tableGrades.getValueAt(tableGrades.getEditingRow(), tableGrades.getEditingColumn()).toString();
-            //systemDatabase.updateGradeInfo();
+        model.addTableModelListener(e -> { // update grade after editing
+            int row = e.getFirstRow();
+            int column = e.getColumn();
+            String newScoreStr = tableGrades.getValueAt(tableGrades.getEditingRow(), tableGrades.getEditingColumn()).toString();
+            if (Tools.isNumeric(newScoreStr)) {
+                Double newScore = Double.parseDouble(newScoreStr);
+                systemDatabase.updateGrade(course, row, column, newScore);
+            } else {
+                JOptionPane.showMessageDialog(this, "Wrong form (number only).", "WRONG FORM", JOptionPane.INFORMATION_MESSAGE);
+                updateGradeTable();
+            }
+
         });
         RowSorter<TableModel> sorter = new TableRowSorter<>(model);
 
@@ -221,15 +228,5 @@ public class FrameCourse extends JFrame {
         scrollPaneGrades.setBorder(BorderFactory.createTitledBorder("Courses"));
         panel_2.add(scrollPaneGrades);
         panel_2.updateUI();
-    }
-
-    private boolean isNumeric(String str) {
-        String testStr;
-        try {
-            testStr = new BigDecimal(str).toString();
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
     }
 }
