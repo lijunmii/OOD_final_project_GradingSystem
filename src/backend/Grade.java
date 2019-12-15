@@ -10,6 +10,10 @@ public class Grade {
         this.fullScore = fullScore;
     }
 
+    public Grade(double fullScore) {
+        this.fullScore = fullScore;
+    }
+
     public Double getScore() {
         return score;
     }
@@ -48,6 +52,9 @@ public class Grade {
 
     @Override
     public String toString() {
+        if (score == null) {
+            return "";
+        }
         return score.toString();
     }
 }

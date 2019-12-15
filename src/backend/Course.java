@@ -145,7 +145,7 @@ public class Course {
         List<Grade> grades = new ArrayList<>();
         for (Assignment assignment : assignments) {
             Double fullScore = assignment.getFullScore();
-            grades.add(new Grade(0, fullScore));
+            grades.add(new Grade(fullScore));
         }
         student.setGrades(grades);
 

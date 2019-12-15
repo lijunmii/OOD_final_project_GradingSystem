@@ -198,7 +198,9 @@ public class FrameCourse extends JFrame {
         });
 
         buttonAddAssignment.addActionListener(e -> { // todo:add assignment
-            ;
+//            frameAddAssignment = new FrameAddStudent(this, systemDatabase, course);
+//            frameAddAssignment.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//            frameAddAssignment.setVisible(true);
         });
     }
 
