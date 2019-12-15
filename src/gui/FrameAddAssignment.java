@@ -92,7 +92,7 @@ public class FrameAddAssignment extends JFrame {
                         Double fullScore = Double.parseDouble(fullScoreStr);
                         Double weight = Double.parseDouble(weightStr);
                         systemDatabase.addAssignment(course, category, name, fullScore, weight, startDate, dueDate, note);
-                        JOptionPane.showMessageDialog(this, "Assignment added!", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Assignment added.", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                         frameCourse.updateGradeTable();
                         dispose();
                     } else {

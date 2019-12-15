@@ -133,6 +133,12 @@ public class SystemDatabase {
         save2Database();
     }
 
+    public void updateStudentInfo(Student student, String studentId, String studentName, int studentType) {
+        student.updateInfo(studentId, studentName, studentType);
+
+        save2Database();
+    }
+
     public void delStudent() {
         //todo: delete student
 
@@ -141,6 +147,12 @@ public class SystemDatabase {
 
     public void addAssignment(Course course, String category, String name, Double fullScore, Double weight, String startDate, String dueDate, String note) {
         course.addAssignment(category, name, fullScore, weight, startDate, dueDate, note);
+
+        save2Database();
+    }
+
+    public void updateAssignmentInfo(Assignment assignment, String category, String name, Double fullScore, Double weight, String startDate, String dueDate, String note) {
+        assignment.updateInfo(category, name, fullScore, weight, startDate, dueDate, note);
 
         save2Database();
     }

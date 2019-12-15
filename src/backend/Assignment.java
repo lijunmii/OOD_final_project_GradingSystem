@@ -61,6 +61,14 @@ public class Assignment {
         this.weight = weight;
     }
 
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
     public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
@@ -87,5 +95,15 @@ public class Assignment {
         info += "\nDue date: " + dueDate;
         info += "\nNote: " + note;
         return info;
+    }
+
+    public void updateInfo(String category, String name, Double fullScore, Double weight, String startDate, String dueDate, String note) {
+        this.category = category;
+        this.name = name;
+        this.fullScore = fullScore;
+        this.weight = weight;
+        this.startDate = startDate;
+        this.dueDate = dueDate;
+        this.note = note;
     }
 }

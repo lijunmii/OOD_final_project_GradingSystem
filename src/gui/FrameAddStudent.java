@@ -54,7 +54,7 @@ public class FrameAddStudent extends JFrame {
                 if (!course.studentExist(studentId)) {
                     int studentTypeIndex = comboBoxType.getSelectedIndex();
                     systemDatabase.addStudent(course, studentId, studentName, studentTypeIndex);
-                    JOptionPane.showMessageDialog(this, "Student added!", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Student added.", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                     frameCourse.updateGradeTable();
                     dispose();
                 } else {

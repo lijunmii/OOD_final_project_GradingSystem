@@ -64,4 +64,10 @@ public class Student implements Comparable<Student> {
     public int compareTo(Student o) {
         return studentId.compareTo(o.getStudentId());
     }
+
+    public void updateInfo(String studentId, String studentName, int studentType) {
+        this.studentId = studentId;
+        this.studentName = studentName;
+        this.type = types[studentType];
+    }
 }

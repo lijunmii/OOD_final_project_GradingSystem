@@ -47,6 +47,8 @@ public class FrameCourse extends JFrame {
 
     private FrameAddStudent frameAddStudent = new FrameAddStudent();
     private FrameAddAssignment frameAddAssignment = new FrameAddAssignment();
+    private FrameEditStudentInfo frameEditStudentInfo = new FrameEditStudentInfo();
+    private FrameEditAssignmentInfo frameEditAssignmentInfo = new FrameEditAssignmentInfo();
 
     FrameCourse() {
     }
@@ -80,7 +82,7 @@ public class FrameCourse extends JFrame {
                 panel_3_1.setBorder(new EtchedBorder());
 
                 textAreaInfo.setBorder(new EtchedBorder());
-                textAreaInfo.setText("You will see assignment info here.");
+                textAreaInfo.setText("You will see student or assignment info here.");
                 textAreaInfo.setEditable(false);
                 textAreaInfo.setLineWrap(true);
                 textAreaInfo.setWrapStyleWord(true);
@@ -165,8 +167,45 @@ public class FrameCourse extends JFrame {
             }
         });
 
-        buttonEditInfo.addActionListener(e -> { // todo:edit assignment or student info
-            ;
+        buttonAddStudent.addActionListener(e -> { // add student
+            if (!subWindowExist()) {
+                frameAddStudent = new FrameAddStudent(this, systemDatabase, course);
+                frameAddStudent.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frameAddStudent.setVisible(true);
+            }
+        });
+
+        buttonAddAssignment.addActionListener(e -> { // add assignment
+            if (!subWindowExist()) {
+                frameAddAssignment = new FrameAddAssignment(this, systemDatabase, course);
+                frameAddAssignment.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frameAddAssignment.setVisible(true);
+            }
+        });
+
+        buttonEditInfo.addActionListener(e -> { // edit assignment or student info
+            if (!subWindowExist()) {
+                int row = tableGrades.getSelectedRow();
+                int column = tableGrades.getSelectedColumn();
+
+                if (row >= 0 && column >= 0) {
+                    if (column == 0) { // edit student info
+                        String studentId = tableGrades.getValueAt(row, 0).toString();
+                        Student student = course.getStudent(studentId);
+                        frameEditStudentInfo = new FrameEditStudentInfo(this, systemDatabase, course, student);
+                        frameEditStudentInfo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        frameEditStudentInfo.setVisible(true);
+                    } else { // edit assignment info
+                        int assignmentIndex = column - 1;
+                        Assignment assignment = course.getAssignments().get(assignmentIndex);
+                        frameEditAssignmentInfo = new FrameEditAssignmentInfo(this, systemDatabase, course, assignment);
+                        frameEditAssignmentInfo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        frameEditAssignmentInfo.setVisible(true);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "No cell selected.", "NO SELECTION", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
         });
 
         buttonSaveComment.addActionListener(e -> { // save comment for a cell after edit
@@ -186,22 +225,6 @@ public class FrameCourse extends JFrame {
                 JOptionPane.showMessageDialog(this, "Comment Saved.", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this, "No cell selected.", "NO SELECTION", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-
-        buttonAddStudent.addActionListener(e -> { // add student
-            if (!subWindowExist()) {
-                frameAddStudent = new FrameAddStudent(this, systemDatabase, course);
-                frameAddStudent.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                frameAddStudent.setVisible(true);
-            }
-        });
-
-        buttonAddAssignment.addActionListener(e -> { // todo:add assignment
-            if (!subWindowExist()) {
-                frameAddAssignment = new FrameAddAssignment(this, systemDatabase, course);
-                frameAddAssignment.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                frameAddAssignment.setVisible(true);
             }
         });
     }
@@ -268,6 +291,9 @@ public class FrameCourse extends JFrame {
         scrollPaneGrades.setBorder(BorderFactory.createTitledBorder("Courses"));
         panel_2.add(scrollPaneGrades);
         panel_2.updateUI();
+
+        textAreaInfo.setText("You will see student or assignment info here.");
+        textAreaComment.setText("Leave your comment here.");
     }
 
     public void setData() {
@@ -330,6 +356,8 @@ public class FrameCourse extends JFrame {
 
     private boolean subWindowExist() { // one sub window at the same time
         return (frameAddStudent.isVisible() ||
-                frameAddAssignment.isVisible());
+                frameAddAssignment.isVisible() ||
+                frameEditStudentInfo.isVisible() ||
+                frameEditAssignmentInfo.isVisible());
     }
 }
