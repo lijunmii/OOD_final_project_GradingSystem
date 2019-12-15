@@ -91,6 +91,7 @@ public class Course {
             l.add(a);
         }
         setAssignments(l);
+
         List<Student> students = new ArrayList<>();
         for (int i = 1; i < sheet.getRows(); i++) {
             List<String> ls = new ArrayList<>();

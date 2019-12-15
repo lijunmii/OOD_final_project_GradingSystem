@@ -1,10 +1,14 @@
 package backend;
 
+import java.util.Date;
+
 public class Assignment {
     private String category;
     private String name;
     private Double fullScore;
     private Double weight;
+    private String startDate;
+    private String dueDate;
     private String comment;
 
     public Assignment(String category, String name, double fullScore, double weight) {
@@ -12,6 +16,15 @@ public class Assignment {
         this.name = name;
         this.fullScore = fullScore;
         this.weight = weight;
+    }
+
+    public Assignment(String category, String name, double fullScore, double weight, String startDate, String dueDate) {
+        this.category = category;
+        this.name = name;
+        this.fullScore = fullScore;
+        this.weight = weight;
+        this.startDate = startDate;
+        this.dueDate = dueDate;
     }
 
     public String getCategory() {

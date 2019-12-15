@@ -27,13 +27,17 @@ public class FrameCourse extends JFrame {
     private JTable tableGrades;
     private JScrollPane scrollPaneGrades;
 
-    private JTextArea textAreaComment = new JTextArea(10, 15);
-    private JButton buttonSaveComment = new JButton("Save");
+    private JTextArea textAreaInfo = new JTextArea();
+    private JButton buttonEditInfo = new JButton("Edit assignment info");
+    private JTextArea textAreaComment = new JTextArea();
+    private JButton buttonSaveComment = new JButton("Save comment");
+
     private JButton buttonImportExcel = new JButton("Import data");
     private JButton buttonAddStudent = new JButton("Add student");
     private JButton buttonDelStudent = new JButton("Delete student");
     private JButton buttonAddAssignment = new JButton("Add Assignment");
     private JButton buttonDelAssignment = new JButton("Delete Assignment");
+
     private JButton buttonCalculateGrades = new JButton("CALCULATE FINAL GRADES");
 
     private JButton buttonViewAll = new JButton("All students");
@@ -60,9 +64,8 @@ public class FrameCourse extends JFrame {
 
         panel_2 = new JPanel(); {
             panel_2.setLayout(new GridLayout(1, 1));
-            panel_2.setBorder(BorderFactory.createEtchedBorder());
+            panel_2.setBorder(new EtchedBorder());
 
-            //todo: table read student and assignment list from course
             updateGradeTable();
         }
         panel.add(panel_2, BorderLayout.CENTER);
@@ -70,23 +73,59 @@ public class FrameCourse extends JFrame {
         JPanel panel_3 = new JPanel(); {
             panel_3.setLayout(new GridLayout(3, 1));
 
-            JPanel panel_3_1 = new JPanel();
-            {
-                panel_3_1.add(textAreaComment);
-                panel_3_1.add(buttonSaveComment);
+            JPanel panel_3_1 = new JPanel(); {
+                panel_3_1.setLayout(new BorderLayout());
+                panel_3_1.setBorder(new EtchedBorder());
+
+                textAreaInfo.setBorder(new EtchedBorder());
+                textAreaInfo.setText("You will see assignment info here.");
+                textAreaInfo.setEditable(false);
+                textAreaInfo.setLineWrap(true);
+                textAreaInfo.setWrapStyleWord(true);
+                JScrollPane jScrollPaneInfo = new JScrollPane(textAreaInfo);
+                panel_3_1.add(jScrollPaneInfo, BorderLayout.CENTER);
+
+                JPanel panel_3_1_1 = new JPanel(); {
+                    panel_3_1_1.add(buttonEditInfo);
+                }
+
+                panel_3_1.add(panel_3_1_1, BorderLayout.SOUTH);
             }
             panel_3.add(panel_3_1);
 
-            JPanel panel_3_2 = new JPanel();
-            {
-                panel_3_2.add(buttonImportExcel);
-                panel_3_2.add(buttonAddStudent);
-                panel_3_2.add(buttonDelStudent);
+            JPanel panel_3_2 = new JPanel(); {
+                panel_3_2.setLayout(new BorderLayout());
+                panel_3_2.setBorder(new EtchedBorder());
+
+                textAreaComment.setBorder(new EtchedBorder());
+                textAreaComment.setText("Leave your comment here.");
+                textAreaComment.setLineWrap(true);
+                textAreaComment.setWrapStyleWord(true);
+                JScrollPane jScrollPaneComment = new JScrollPane(textAreaComment);
+                panel_3_2.add(jScrollPaneComment, BorderLayout.CENTER);
+
+                JPanel panel_3_2_1 = new JPanel(); {
+                    panel_3_2_1.add(buttonSaveComment);
+                }
+                panel_3_2.add(panel_3_2_1, BorderLayout.SOUTH);
             }
             panel_3.add(panel_3_2);
 
-            JPanel panel_3_3 = new JPanel();
-            {
+            JPanel panel_3_3 = new JPanel(); {
+                panel_3_3.setPreferredSize(new Dimension(300, 0));
+                panel_3_3.setLayout(new GridLayout(1, 2));
+                panel_3_3.setBorder(new EtchedBorder());
+
+                JPanel panel_3_3_1 = new JPanel(); {
+                    panel_3_3_1.setLayout(new GridLayout(5, 1));
+                    panel_3_3_1.add(buttonImportExcel);
+                    panel_3_3_1.add(buttonAddStudent);
+                    panel_3_3_1.add(buttonDelStudent);
+                    panel_3_3_1.add(buttonAddAssignment);
+                    panel_3_3_1.add(buttonDelAssignment);
+                }
+                panel_3_3.add(panel_3_3_1);
+
                 panel_3_3.add(buttonCalculateGrades);
             }
             panel_3.add(panel_3_3);
@@ -94,6 +133,8 @@ public class FrameCourse extends JFrame {
         panel.add(panel_3, BorderLayout.EAST);
 
         JPanel panel_4 = new JPanel(); {
+            panel_4.setBorder(new EtchedBorder());
+
             panel_4.add(buttonViewAll);
             panel_4.add(buttonViewUnderGrad);
             panel_4.add(buttonViewGrad);
@@ -150,14 +191,14 @@ public class FrameCourse extends JFrame {
                 return column == 0 ? false : true;
             }
 
-            //todo here: sort numerical rather than  alphabetical, and keep it editable
-            @Override
-            public Class getColumnClass(int columnIndex) {
-                if (columnIndex == 0) {
-                    return String.class;
-                }
-                return Number.class;
-            }
+            //todo here: sort numerical rather than alphabetical, and keep it editable
+//            @Override
+//            public Class getColumnClass(int columnIndex) {
+//                if (columnIndex == 0) {
+//                    return String.class;
+//                }
+//                return Number.class;
+//            }
         };
         model.addTableModelListener(e -> {
             //todo: update grade after editing
