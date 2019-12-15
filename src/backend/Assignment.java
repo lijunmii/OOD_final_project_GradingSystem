@@ -45,12 +45,28 @@ public class Assignment {
         return note;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     public void setFullScore(Double fullScore) {
         this.fullScore = fullScore;
     }
 
     public void setWeight(Double weight) {
         this.weight = weight;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
 
     public void setNote(String note) {

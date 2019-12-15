@@ -21,6 +21,10 @@ public class Student implements Comparable<Student> {
         this.type = s;
     }
 
+    public void setType(int index) {
+        type = types[index];
+    }
+
     public void setGrades(List<Grade> grades) {
         this.grades = grades;
     }

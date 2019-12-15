@@ -136,4 +136,11 @@ public class SystemDatabase {
         //todo: write clients into db here
         save2Database();
     }
+
+    public void addStudent(Course course, String studentId, String studentName, int studentType) {
+        course.addStudent(studentId, studentName, studentType);
+
+        //todo: write clients into db here
+        save2Database();
+    }
 }

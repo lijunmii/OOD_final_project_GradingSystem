@@ -129,9 +129,27 @@ public class Course {
         return null;
     }
 
-    public void addStudent() {
-        ;
+    public boolean studentExist(String studentId) {
+        for (Student student : students) {
+            if (student.getStudentId().equals(studentId)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
+    public void addStudent(String studentId, String studentName, int studentType) {
+        Student student = new Student(studentId, studentName);
+        student.setType(studentType);
+
+        List<Grade> grades = new ArrayList<>();
+        for (Assignment assignment : assignments) {
+            Double fullScore = assignment.getFullScore();
+            grades.add(new Grade(0, fullScore));
+        }
+        student.setGrades(grades);
+
+        students.add(student);
         Collections.sort(students);
     }
 

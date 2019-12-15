@@ -4,5 +4,5 @@ import backend.*;
 
 import javax.swing.*;
 
-public class FrameAddAssignment extends JFrame {
+public class FrameViewCategory extends JFrame {
 }

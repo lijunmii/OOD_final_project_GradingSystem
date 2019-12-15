@@ -42,9 +42,12 @@ public class FrameCourse extends JFrame {
     private JButton buttonViewAll = new JButton("All students");
     private JButton buttonViewUnderGrad = new JButton("Undergrad");
     private JButton buttonViewGrad = new JButton("Graduate");
-    private JButton buttonViewCategory = new JButton("View a specific category");
+    private JButton buttonViewCategory = new JButton("View category");
     private JButton buttonShowPercentage = new JButton("Percentage");
     private JButton buttonShowRawScore = new JButton("Raw score");
+
+    private FrameAddStudent frameAddStudent = new FrameAddStudent();
+    private FrameAddAssignment frameAddAssignment = new FrameAddAssignment();
 
     FrameCourse() {
     }
@@ -164,7 +167,7 @@ public class FrameCourse extends JFrame {
             }
         });
 
-        buttonEditInfo.addActionListener(e -> { // edit assignment or student info
+        buttonEditInfo.addActionListener(e -> { // todo:edit assignment or student info
             ;
         });
 
@@ -186,6 +189,16 @@ public class FrameCourse extends JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "No cell selected.", "NO SELECTION", JOptionPane.INFORMATION_MESSAGE);
             }
+        });
+
+        buttonAddStudent.addActionListener(e -> { // add student
+            frameAddStudent = new FrameAddStudent(this, systemDatabase, course);
+            frameAddStudent.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frameAddStudent.setVisible(true);
+        });
+
+        buttonAddAssignment.addActionListener(e -> { // todo:add assignment
+            ;
         });
     }
 
@@ -279,7 +292,7 @@ public class FrameCourse extends JFrame {
                 return column == 0 ? false : true;
             }
 
-            //todo here: sort numerical rather than alphabetical, and keep it editable
+            // todo:sort numerical rather than alphabetical, and keep it editable
 //            @Override
 //            public Class getColumnClass(int columnIndex) {
 //                if (columnIndex == 0) {
@@ -287,6 +300,8 @@ public class FrameCourse extends JFrame {
 //                }
 //                return Number.class;
 //            }
+
+            // todo: set col width
         };
 
         model.addTableModelListener(e -> { // update grade after editing
@@ -307,5 +322,10 @@ public class FrameCourse extends JFrame {
         });
 
         return model;
+    }
+
+    private boolean subWindowExist() { // one sub window at the same time
+        return (frameAddStudent.isVisible() ||
+                frameAddAssignment.isVisible());
     }
 }
