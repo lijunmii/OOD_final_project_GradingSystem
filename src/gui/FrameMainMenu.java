@@ -119,7 +119,7 @@ public class FrameMainMenu extends JFrame {
                     String courseNum = (String) listCourses.getValueAt(listCourses.getSelectedRow(), 0);
                     String semester = listCourses.getValueAt(listCourses.getSelectedRow(), 2).toString();
                     Course course = client.getCourse(courseNum, semester);
-                    frameCourse = new FrameCourse(this, systemDatabase, course);
+                    frameCourse = new FrameCourse(systemDatabase, course);
                     frameCourse.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     frameCourse.setVisible(true);
                 } else {

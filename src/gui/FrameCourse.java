@@ -37,10 +37,10 @@ public class FrameCourse extends JFrame {
     private JButton buttonAddAssignment = new JButton("Add Assignment");
     private JButton buttonDelAssignment = new JButton("Delete Assignment");
 
-    private JButton buttonCalculateGrades = new JButton("CALCULATE FINAL GRADES");
+    private JButton buttonCalculateGrades = new JButton("<html>&nbsp;&nbsp;CALCULATE<br>FINAL GRADES</html>");
 
-    private JButton buttonViewUnderGrad = new JButton("View Undergrad");
-    private JButton buttonViewGrad = new JButton("View Graduate");
+    private JButton buttonViewUnderGrad = new JButton("View undergrad");
+    private JButton buttonViewGrad = new JButton("View graduate");
     private JButton buttonViewCategory = new JButton("View category");
     private JButton buttonShowPercentage = new JButton("Percentage");
     private JButton buttonShowRawScore = new JButton("Raw score");
@@ -50,10 +50,8 @@ public class FrameCourse extends JFrame {
     private FrameEditStudentInfo frameEditStudentInfo = new FrameEditStudentInfo();
     private FrameEditAssignmentInfo frameEditAssignmentInfo = new FrameEditAssignmentInfo();
 
-    FrameCourse() {
-    }
-
-    FrameCourse(FrameMainMenu frameMainMenu, SystemDatabase systemDatabase, Course course) {
+    FrameCourse() {}
+    FrameCourse(SystemDatabase systemDatabase, Course course) {
         this.systemDatabase = systemDatabase;
         this.course = course;
         panel.setLayout(new BorderLayout());
@@ -130,7 +128,11 @@ public class FrameCourse extends JFrame {
                 }
                 panel_3_3.add(panel_3_3_1);
 
-                panel_3_3.add(buttonCalculateGrades);
+                JPanel panel_3_3_2 = new JPanel(); {
+                    buttonCalculateGrades.setPreferredSize(new Dimension(140, 150));
+                    panel_3_3_2.add(buttonCalculateGrades);
+                }
+                panel_3_3.add(panel_3_3_2);
             }
             panel_3.add(panel_3_3);
         }
@@ -180,6 +182,37 @@ public class FrameCourse extends JFrame {
                 frameAddAssignment = new FrameAddAssignment(this, systemDatabase, course);
                 frameAddAssignment.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frameAddAssignment.setVisible(true);
+            }
+        });
+
+        buttonDelStudent.addActionListener(e -> { // delete student
+            int row = tableGrades.getSelectedRow();
+
+            if (row >= 0) {
+                String studentId = tableGrades.getValueAt(row, 0).toString();
+                int result = JOptionPane.showConfirmDialog(null, "Delete student?", "CONFIRM", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    systemDatabase.delStudent(course, studentId);
+                    updateGradeTable();
+                    JOptionPane.showMessageDialog(this, "student deleted.", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "No cell selected.", "NO SELECTION", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        buttonDelAssignment.addActionListener(e -> { // delete assignment
+            int column = tableGrades.getSelectedColumn();
+
+            if (column > 0) {
+                int assignmentIndex = column - 1;int result = JOptionPane.showConfirmDialog(null, "Delete assignment?", "CONFIRM", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    systemDatabase.delAssignment(course, assignmentIndex);
+                    updateGradeTable();
+                    JOptionPane.showMessageDialog(this, "assignment deleted.", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "No assignment selected.", "NO SELECTION", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 

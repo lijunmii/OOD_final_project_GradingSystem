@@ -139,8 +139,8 @@ public class SystemDatabase {
         save2Database();
     }
 
-    public void delStudent() {
-        //todo: delete student
+    public void delStudent(Course course, String studentId) {
+        course.delStudent(studentId);
 
         save2Database();
     }
@@ -158,7 +158,7 @@ public class SystemDatabase {
     }
 
     public void delAssignment(Course course, int assignmentIndex) {
-        //todo: delete assignment
+        course.delAssignment(assignmentIndex);
 
         save2Database();
     }

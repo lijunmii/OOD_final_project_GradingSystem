@@ -153,8 +153,13 @@ public class Course {
         Collections.sort(students);
     }
 
-    public void delStudent() {
-        ;
+    public void delStudent(String studentId) {
+        for (int i = 0; i < students.size(); i++) {
+            if (students.get(i).getStudentId().equals(studentId)) {
+                students.remove(i);
+                break;
+            }
+        }
     }
 
     public boolean assignmentExist(String category, String name) {
@@ -176,6 +181,14 @@ public class Course {
 
         for (Student student : students) {
             student.getGrades().add(new Grade(fullScore));
+        }
+    }
+
+    public void delAssignment(int assignmentIndex) {
+        assignments.remove(assignmentIndex);
+
+        for (Student student : students) {
+            student.getGrades().remove(assignmentIndex);
         }
     }
 }
