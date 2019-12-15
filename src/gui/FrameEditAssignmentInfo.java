@@ -15,7 +15,7 @@ public class FrameEditAssignmentInfo extends JFrame {
     private JTextField inputStartDate = new JTextField(18);
     private JTextField inputDueDate = new JTextField(18);
     private JTextField inputNote = new JTextField(18);
-    private JButton buttonAdd = new JButton("Add assignment");
+    private JButton buttonAdd = new JButton("Update Info");
 
     FrameEditAssignmentInfo() {}
     FrameEditAssignmentInfo(FrameCourse frameCourse, SystemDatabase systemDatabase, Course course, Assignment assignment) {
