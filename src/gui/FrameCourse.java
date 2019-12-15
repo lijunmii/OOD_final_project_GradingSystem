@@ -269,10 +269,14 @@ public class FrameCourse extends JFrame {
             int row = e.getFirstRow();
             int column = e.getColumn();
             String newScoreStr = tableGrades.getValueAt(tableGrades.getEditingRow(), tableGrades.getEditingColumn()).toString();
-            if (Tools.isNumeric(newScoreStr)) {
+            if (Tools.isNumeric(newScoreStr)) { // sec raw score or score lost
                 Double newScore = Double.parseDouble(newScoreStr);
                 systemDatabase.updateGrade(course, row, column, newScore);
-            } else {
+                updateGradeTable();
+            } else if (Tools.isNumeric(newScoreStr.substring(0, newScoreStr.length() - 1)) && newScoreStr.substring(newScoreStr.length() - 1).equals("%")) { // set percentage score
+                systemDatabase.updateGrade(course, row, column, newScoreStr);
+                updateGradeTable();
+            } else  {
                 JOptionPane.showMessageDialog(this, "Wrong form (number only).", "WRONG FORM", JOptionPane.INFORMATION_MESSAGE);
                 updateGradeTable();
             }

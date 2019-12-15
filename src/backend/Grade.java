@@ -23,7 +23,19 @@ public class Grade {
     }
 
     public void setScore(Double score) {
-        this.score = score;
+        if (score >= 0) {
+            this.score = score;
+        } else {
+            this.score = fullScore + score;
+        }
+    }
+
+    public void setScore(String scoreStr) {
+        String scoreTempStr = scoreStr.substring(0, scoreStr.length() - 1);
+        if (Tools.isNumeric(scoreTempStr)) {
+            Double scoreTemp = Double.parseDouble(scoreTempStr);
+            score = fullScore * scoreTemp / 100;
+        }
     }
 
     public void setFullScore(Double fullScore) {

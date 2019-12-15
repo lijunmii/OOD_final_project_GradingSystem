@@ -115,4 +115,11 @@ public class SystemDatabase {
         //todo: write clients into db here
         save2Database();
     }
+
+    public void updateGrade(Course course, int studentIndex, int assignmentIndex, String newScoreStr) {
+        course.updateGrade(studentIndex, assignmentIndex - 1, newScoreStr);
+
+        //todo: write clients into db here
+        save2Database();
+    }
 }

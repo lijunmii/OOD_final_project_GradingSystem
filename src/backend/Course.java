@@ -67,6 +67,10 @@ public class Course {
         students.get(studentIndex).getGrades().get(assignmentIndex).setScore(newScore);
     }
 
+    public void updateGrade(int studentIndex, int assignmentIndex, String newScoreStr) {
+        students.get(studentIndex).getGrades().get(assignmentIndex).setScore(newScoreStr);
+    }
+
     public void importExcel(File f) {
         Workbook workbook = null;
         try {
