@@ -144,13 +144,13 @@ public class FrameCourse extends JFrame {
 
         tableGrades = new JTable(gradeData, columnNames);
 
-        //todo here: sort numerical rather than  alphabetical
         TableModel model = new DefaultTableModel(gradeData, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return column == 0 ? false : true;
             }
 
+            //todo here: sort numerical rather than  alphabetical, and keep it editable
             @Override
             public Class getColumnClass(int columnIndex) {
                 if (columnIndex == 0) {
