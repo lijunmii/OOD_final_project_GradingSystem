@@ -1,5 +1,10 @@
 package backend;
 
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,6 +97,13 @@ public class SystemDatabase {
 
     public void updateCourseInfo(String username, int courseIndex, String courseNum, String courseName) {
         getClient(username).updateCourseInfo(courseIndex, courseNum, courseName);
+
+        //todo: write clients into db here
+        save2Database();
+    }
+
+    public void importExcel(File f, Course course) {
+        course.importExcel(f);
 
         //todo: write clients into db here
         save2Database();
