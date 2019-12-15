@@ -9,13 +9,12 @@ public class Student {
     protected String studentId;
     protected String studentName;
     protected String type;
-    protected List<Grade> grades;
-    protected String comment = "";
+    protected List<Grade> grades = new ArrayList<>();
+    protected String comment = "Leave your comment for this student here.";
 
     public Student(String studentId, String studentName) {
         this.studentId = studentId;
         this.studentName = studentName;
-        grades = new ArrayList<>();
     }
 
     public void setType(String s) {

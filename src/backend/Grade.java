@@ -3,7 +3,7 @@ package backend;
 public class Grade {
     private Double score;
     private Double fullScore;
-    private String comment = "";
+    private String comment = "Leave your comment for this grade here.";
 
     public Grade(double score, double fullScore) {
         this.score = score;

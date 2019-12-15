@@ -183,18 +183,15 @@ public class FrameCourse extends JFrame {
             int column = tableGrades.getSelectedColumn();
 
             if (row >= 0 && column >= 0) {
+                String studentId = tableGrades.getValueAt(row, 0).toString();
+                Student student = course.getStudent(studentId);
                 if (column == 0) { // print student info & comment
-                    String studentId = tableGrades.getValueAt(row, column).toString();
-                    Student student = course.getStudent(studentId);
                     textAreaInfo.setText(student.getInfo());
                     textAreaComment.setText(student.getComment());
                 } else { // print assignment info & grade comment
-                    String studentId = tableGrades.getValueAt(row, column).toString();
-                    Student student = course.getStudent(studentId);
                     int assignmentIndex = column - 1;
                     textAreaInfo.setText(course.getAssignments().get(assignmentIndex).getInfo());
-                    // todo:debug no grades
-                    //textAreaComment.setText(student.getGrades().get(assignmentIndex).getComment());
+                    textAreaComment.setText(student.getGrades().get(assignmentIndex).getComment());
                 }
             }
         });
@@ -203,7 +200,18 @@ public class FrameCourse extends JFrame {
             int row = tableGrades.getSelectedRow();
             int column = tableGrades.getSelectedColumn();
 
-            // todo:copy above
+            if (row >= 0 && column >= 0) {
+                String studentId = tableGrades.getValueAt(row, 0).toString();
+                Student student = course.getStudent(studentId);
+                if (column == 0) { // print student info & comment
+                    textAreaInfo.setText(student.getInfo());
+                    textAreaComment.setText(student.getComment());
+                } else { // print assignment info & grade comment
+                    int assignmentIndex = column - 1;
+                    textAreaInfo.setText(course.getAssignments().get(assignmentIndex).getInfo());
+                    textAreaComment.setText(student.getGrades().get(assignmentIndex).getComment());
+                }
+            }
         });
 
         tableGrades.getTableHeader().setReorderingAllowed(false);

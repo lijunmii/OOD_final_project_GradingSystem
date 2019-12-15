@@ -12,23 +12,13 @@ public class Course {
     private String courseNum;
     private String courseName;
     private Semester semester;
-    private List<Assignment> assignments;
-    private List<Student> students;
+    private List<Assignment> assignments = new ArrayList<>();
+    private List<Student> students = new ArrayList<>();
 
     public Course(String courseNum, String courseName, Semester semester) {
         this.courseNum = courseNum;
         this.courseName = courseName;
         this.semester = semester;
-        assignments = new ArrayList<>();
-        students = new ArrayList<>();
-    }
-
-    public void setAssignments(List<Assignment> l) {
-        this.assignments = l;
-    }
-
-    public void setStudents(List<Student> S) {
-        this.students = S;
     }
 
     public String getCourseNum() {
@@ -84,21 +74,19 @@ public class Course {
         } catch (Exception e) {
             System.out.println("File doesn't meet the requirements!");
         }
-
         Sheet sheet = workbook.getSheet(0);
 
-        List<Assignment> l = new ArrayList<Assignment>();
+        assignments = new ArrayList<>();
         for (int i = 3; i < sheet.getColumns(); i++) {
             Cell cell = sheet.getCell(i, 0);
 
             String[] array = cell.getContents().split(" ");
             Assignment a = new Assignment(array[0], array[1],
                     Double.parseDouble(array[2]), Double.parseDouble(array[3]));
-            l.add(a);
+            assignments.add(a);
         }
-        setAssignments(l);
 
-        List<Student> students = new ArrayList<>();
+        students = new ArrayList<>();
         for (int i = 1; i < sheet.getRows(); i++) {
             List<String> ls = new ArrayList<>();
             List<Grade> lg = new ArrayList<>();
@@ -124,7 +112,6 @@ public class Course {
             s.setGrades(lg);
             students.add(s);
         }
-        setStudents(students);
     }
 
     public Student getStudent(String studentId) {
