@@ -61,4 +61,15 @@ public class Assignment {
     public String toString() {
         return name;
     }
+
+    public String getInfo() {
+        String info = "Assignment name: " + name;
+        info += "\nCategory: " + category;
+        info += "\nFull score: " + fullScore;
+        info += "\nWeight: " + weight;
+        info += "\nStart date: " + startDate;
+        info += "\nDue date: " + dueDate;
+        info += "\nNote: " + note;
+        return info;
+    }
 }

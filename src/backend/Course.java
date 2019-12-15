@@ -84,7 +84,9 @@ public class Course {
         } catch (Exception e) {
             System.out.println("File doesn't meet the requirements!");
         }
+
         Sheet sheet = workbook.getSheet(0);
+
         List<Assignment> l = new ArrayList<Assignment>();
         for (int i = 3; i < sheet.getColumns(); i++) {
             Cell cell = sheet.getCell(i, 0);
@@ -123,5 +125,14 @@ public class Course {
             students.add(s);
         }
         setStudents(students);
+    }
+
+    public Student getStudent(String studentId) {
+        for (Student student : students) {
+            if (student.getStudentId().equals(studentId)) {
+                return student;
+            }
+        }
+        return null;
     }
 }

@@ -49,4 +49,11 @@ public class Student {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    public String getInfo() {
+        String info = "Student id: " + studentId;
+        info += "\nStudent name: " + studentName;
+        info += "\nStudent type: " + type;
+        return info;
+    }
 }
