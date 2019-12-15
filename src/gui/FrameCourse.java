@@ -11,7 +11,6 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.io.File;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +23,7 @@ public class FrameCourse extends JFrame {
     private JPanel panel_2;
     private String[] columnNames;
     private Object[][] gradeData;
+    private TableModel model;
     private JTable tableGrades;
     private JScrollPane scrollPaneGrades;
 
@@ -66,6 +66,7 @@ public class FrameCourse extends JFrame {
             panel_2.setLayout(new GridLayout(1, 1));
             panel_2.setBorder(new EtchedBorder());
 
+            setModel();
             updateGradeTable();
         }
         panel.add(panel_2, BorderLayout.CENTER);
@@ -166,6 +167,83 @@ public class FrameCourse extends JFrame {
     }
 
     public void updateGradeTable() {
+        setData();
+        tableGrades = new JTable(gradeData, columnNames);
+
+        model = new DefaultTableModel(gradeData, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 0 ? false : true;
+            }
+
+            //todo here: sort numerical rather than alphabetical, and keep it editable
+//            @Override
+//            public Class getColumnClass(int columnIndex) {
+//                if (columnIndex == 0) {
+//                    return String.class;
+//                }
+//                return Number.class;
+//            }
+        };
+
+        model.addTableModelListener(e -> { // update grade after editing
+            int row = e.getFirstRow();
+            int column = e.getColumn();
+            String newScoreStr = tableGrades.getValueAt(tableGrades.getEditingRow(), tableGrades.getEditingColumn()).toString();
+            if (Tools.isNumeric(newScoreStr)) {
+                Double newScore = Double.parseDouble(newScoreStr);
+                systemDatabase.updateGrade(course, row, column, newScore);
+            } else {
+                JOptionPane.showMessageDialog(this, "Wrong form (number only).", "WRONG FORM", JOptionPane.INFORMATION_MESSAGE);
+                updateGradeTable();
+            }
+        });
+
+        RowSorter<TableModel> sorter = new TableRowSorter<>(model);
+
+        tableGrades.setModel(model);
+        tableGrades.setRowSorter(sorter);
+
+        tableGrades.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        tableGrades.getSelectionModel().addListSelectionListener(e -> {
+            int row = tableGrades.getSelectedRow();
+            int column = tableGrades.getSelectedColumn();
+            //todo: show info & comments
+
+            if (row >= 0 && column >= 0) { // print student info
+                if (column == 0) {
+                    String studentId = tableGrades.getValueAt(row, column).toString();
+                    System.out.println(studentId);
+                }
+            } else {
+                ;
+            }
+        });
+
+        tableGrades.getColumnModel().getSelectionModel().addListSelectionListener(e -> {
+            int row = tableGrades.getSelectedRow();
+            int column = tableGrades.getSelectedColumn();
+            //todo: show info & comments
+
+        });
+
+        tableGrades.getTableHeader().setReorderingAllowed(false);
+
+        if (tableGrades.getRowCount() > 0) {
+            tableGrades.setRowSelectionInterval(0, 0);
+        }
+
+        panel_2.removeAll();
+        panel_2.setLayout(new GridLayout(1, 1));
+        panel_2.setBorder(BorderFactory.createEtchedBorder());
+        scrollPaneGrades = new JScrollPane(tableGrades);
+        scrollPaneGrades.setBorder(BorderFactory.createTitledBorder("Courses"));
+        panel_2.add(scrollPaneGrades);
+        panel_2.updateUI();
+    }
+
+    public void setData() {
         List<String> assignmentNames = new ArrayList<>();
         assignmentNames.add("Student id");
         for (Assignment assignment : course.getAssignments()) {
@@ -182,51 +260,9 @@ public class FrameCourse extends JFrame {
                 gradeData[i][j] = student.getGrades().get(j - 1);
             }
         }
+    }
 
-        tableGrades = new JTable(gradeData, columnNames);
-
-        TableModel model = new DefaultTableModel(gradeData, columnNames) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column == 0 ? false : true;
-            }
-
-            //todo here: sort numerical rather than alphabetical, and keep it editable
-//            @Override
-//            public Class getColumnClass(int columnIndex) {
-//                if (columnIndex == 0) {
-//                    return String.class;
-//                }
-//                return Number.class;
-//            }
-        };
-        model.addTableModelListener(e -> { // update grade after editing
-            int row = e.getFirstRow();
-            int column = e.getColumn();
-            String newScoreStr = tableGrades.getValueAt(tableGrades.getEditingRow(), tableGrades.getEditingColumn()).toString();
-            if (Tools.isNumeric(newScoreStr)) {
-                Double newScore = Double.parseDouble(newScoreStr);
-                systemDatabase.updateGrade(course, row, column, newScore);
-            } else {
-                JOptionPane.showMessageDialog(this, "Wrong form (number only).", "WRONG FORM", JOptionPane.INFORMATION_MESSAGE);
-                updateGradeTable();
-            }
-
-        });
-        RowSorter<TableModel> sorter = new TableRowSorter<>(model);
-
-        tableGrades.setModel(model);
-        tableGrades.setRowSorter(sorter);
-        if (tableGrades.getRowCount() > 0) {
-            tableGrades.setRowSelectionInterval(0, 0);
-        }
-
-        panel_2.removeAll();
-        panel_2.setLayout(new GridLayout(1, 1));
-        panel_2.setBorder(BorderFactory.createEtchedBorder());
-        scrollPaneGrades = new JScrollPane(tableGrades);
-        scrollPaneGrades.setBorder(BorderFactory.createTitledBorder("Courses"));
-        panel_2.add(scrollPaneGrades);
-        panel_2.updateUI();
+    public void setModel() {
+        ;
     }
 }

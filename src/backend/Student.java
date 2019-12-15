@@ -10,6 +10,7 @@ public class Student {
     protected String studentName;
     protected String type;
     protected List<Grade> grades;
+    protected String comment = "";
 
     public Student(String studentId, String studentName) {
         this.studentId = studentId;
@@ -39,5 +40,13 @@ public class Student {
 
     public List<Grade> getGrades() {
         return grades;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

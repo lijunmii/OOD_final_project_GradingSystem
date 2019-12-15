@@ -1,15 +1,13 @@
 package backend;
 
-import java.util.Date;
-
 public class Assignment {
     private String category;
     private String name;
     private Double fullScore;
     private Double weight;
-    private String startDate;
-    private String dueDate;
-    private String comment;
+    private String startDate = "";
+    private String dueDate = "";
+    private String note = "";
 
     public Assignment(String category, String name, double fullScore, double weight) {
         this.category = category;
@@ -43,8 +41,8 @@ public class Assignment {
         return weight;
     }
 
-    public String getComment() {
-        return comment;
+    public String getNote() {
+        return note;
     }
 
     public void setFullScore(Double fullScore) {
@@ -55,8 +53,8 @@ public class Assignment {
         this.weight = weight;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setNote(String note) {
+        this.note = note;
     }
 
     @Override
