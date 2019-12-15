@@ -6,6 +6,7 @@ import jxl.Workbook;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Course {
@@ -116,6 +117,7 @@ public class Course {
             s.setGrades(lg);
             students.add(s);
         }
+        Collections.sort(students);
     }
 
     public Student getStudent(String studentId) {
@@ -125,5 +127,15 @@ public class Course {
             }
         }
         return null;
+    }
+
+    public void addStudent() {
+        ;
+
+        Collections.sort(students);
+    }
+
+    public void delStudent() {
+        ;
     }
 }

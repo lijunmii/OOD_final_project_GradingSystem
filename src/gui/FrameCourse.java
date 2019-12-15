@@ -27,7 +27,7 @@ public class FrameCourse extends JFrame {
     private JScrollPane scrollPaneGrades;
 
     private JTextArea textAreaInfo = new JTextArea();
-    private JButton buttonEditInfo = new JButton("Edit assignment info");
+    private JButton buttonEditInfo = new JButton("Edit info");
     private JTextArea textAreaComment = new JTextArea();
     private JButton buttonSaveComment = new JButton("Save comment");
 
@@ -163,6 +163,30 @@ public class FrameCourse extends JFrame {
                 updateGradeTable();
             }
         });
+
+        buttonEditInfo.addActionListener(e -> { // edit assignment or student info
+            ;
+        });
+
+        buttonSaveComment.addActionListener(e -> { // save comment for a cell after edit
+            int row = tableGrades.getSelectedRow();
+            int column = tableGrades.getSelectedColumn();
+            System.out.println(row + " " + column);
+
+            if (row >= 0 && column >= 0) {
+                String studentId = tableGrades.getValueAt(row, 0).toString();
+                Student student = course.getStudent(studentId);
+                String comment = textAreaComment.getText();
+                if (column == 0) { // update student comment
+                    systemDatabase.updateComment(student, comment);
+                } else { // update grade comment
+                    int assignmentIndex = column - 1;
+                    systemDatabase.updateComment(student, assignmentIndex, comment);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "No cell selected.", "NO SELECTION", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
     }
 
     public void updateGradeTable() {
@@ -271,10 +295,10 @@ public class FrameCourse extends JFrame {
             String newScoreStr = tableGrades.getValueAt(tableGrades.getEditingRow(), tableGrades.getEditingColumn()).toString();
             if (Tools.isNumeric(newScoreStr)) { // sec raw score or score lost
                 Double newScore = Double.parseDouble(newScoreStr);
-                systemDatabase.updateGrade(course, row, column, newScore);
+                systemDatabase.updateGrade(course, row, column - 1, newScore);
                 updateGradeTable();
             } else if (Tools.isNumeric(newScoreStr.substring(0, newScoreStr.length() - 1)) && newScoreStr.substring(newScoreStr.length() - 1).equals("%")) { // set percentage score
-                systemDatabase.updateGrade(course, row, column, newScoreStr);
+                systemDatabase.updateGrade(course, row, column - 1, newScoreStr);
                 updateGradeTable();
             } else  {
                 JOptionPane.showMessageDialog(this, "Wrong form (number only).", "WRONG FORM", JOptionPane.INFORMATION_MESSAGE);

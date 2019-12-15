@@ -110,14 +110,28 @@ public class SystemDatabase {
     }
 
     public void updateGrade(Course course, int studentIndex, int assignmentIndex, Double newScore) {
-        course.updateGrade(studentIndex, assignmentIndex - 1, newScore);
+        course.updateGrade(studentIndex, assignmentIndex, newScore);
 
         //todo: write clients into db here
         save2Database();
     }
 
     public void updateGrade(Course course, int studentIndex, int assignmentIndex, String newScoreStr) {
-        course.updateGrade(studentIndex, assignmentIndex - 1, newScoreStr);
+        course.updateGrade(studentIndex, assignmentIndex, newScoreStr);
+
+        //todo: write clients into db here
+        save2Database();
+    }
+
+    public void updateComment(Student student, String comment) {
+        student.setComment(comment);
+
+        //todo: write clients into db here
+        save2Database();
+    }
+
+    public void updateComment(Student student, int assignmentIndex, String comment) {
+        student.getGrades().get(assignmentIndex).setComment(comment);
 
         //todo: write clients into db here
         save2Database();

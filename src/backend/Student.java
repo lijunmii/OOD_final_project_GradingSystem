@@ -3,7 +3,7 @@ package backend;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Student {
+public class Student implements Comparable<Student> {
     protected static final String[] types = {"undergraduate", "graduate"};
 
     protected String studentId;
@@ -54,5 +54,10 @@ public class Student {
         info += "\nStudent name: " + studentName;
         info += "\nStudent type: " + type;
         return info;
+    }
+
+    @Override
+    public int compareTo(Student o) {
+        return studentId.compareTo(o.getStudentId());
     }
 }
