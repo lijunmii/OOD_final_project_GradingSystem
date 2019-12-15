@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Student implements Comparable<Student> {
-    protected static final String[] types = {"undergraduate", "graduate"};
+    protected static final String[] types = {"U", "G"};
 
     protected String studentId;
     protected String studentName;

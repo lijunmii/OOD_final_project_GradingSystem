@@ -27,7 +27,6 @@ public class SystemDatabase {
         client.addCourse("CS640", "Artificial Intelligence", new Semester(2019, Season.Fall));
         clients.add(client);
 
-        //todo: read clients from db here
         readClients();
     }
 
@@ -77,70 +76,78 @@ public class SystemDatabase {
     public void register(String username, String password) {
         clients.add(new Client(username, password));
 
-        //todo: write clients into db here
         save2Database();
     }
 
     public void addCourse(String username, String courseNum, String courseName, Semester semester) {
         getClient(username).addCourse(courseNum, courseName, semester);
 
-        //todo: write clients into db here
         save2Database();
     }
 
     public void delCourse(String username, List<String> courseNums, List<String> semesters) {
         getClient(username).delCourse(courseNums, semesters);
 
-        //todo: write clients into db here
         save2Database();
     }
 
     public void updateCourseInfo(String username, int courseIndex, String courseNum, String courseName) {
         getClient(username).updateCourseInfo(courseIndex, courseNum, courseName);
 
-        //todo: write clients into db here
         save2Database();
     }
 
     public void importExcel(File f, Course course) {
         course.importExcel(f);
 
-        //todo: write clients into db here
         save2Database();
     }
 
     public void updateGrade(Course course, int studentIndex, int assignmentIndex, Double newScore) {
         course.updateGrade(studentIndex, assignmentIndex, newScore);
 
-        //todo: write clients into db here
         save2Database();
     }
 
     public void updateGrade(Course course, int studentIndex, int assignmentIndex, String newScoreStr) {
         course.updateGrade(studentIndex, assignmentIndex, newScoreStr);
 
-        //todo: write clients into db here
         save2Database();
     }
 
     public void updateComment(Student student, String comment) {
         student.setComment(comment);
 
-        //todo: write clients into db here
         save2Database();
     }
 
     public void updateComment(Student student, int assignmentIndex, String comment) {
         student.getGrades().get(assignmentIndex).setComment(comment);
 
-        //todo: write clients into db here
         save2Database();
     }
 
     public void addStudent(Course course, String studentId, String studentName, int studentType) {
         course.addStudent(studentId, studentName, studentType);
 
-        //todo: write clients into db here
+        save2Database();
+    }
+
+    public void delStudent() {
+        //todo: delete student
+
+        save2Database();
+    }
+
+    public void addAssignment(Course course, String category, String name, Double fullScore, Double weight, String startDate, String dueDate, String note) {
+        course.addAssignment(category, name, fullScore, weight, startDate, dueDate, note);
+
+        save2Database();
+    }
+
+    public void delAssignment(Course course, int assignmentIndex) {
+        //todo: delete assignment
+
         save2Database();
     }
 }

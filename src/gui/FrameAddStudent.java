@@ -11,7 +11,7 @@ public class FrameAddStudent extends JFrame {
     private JTextField inputId = new JTextField(18);
     private JTextField inputName = new JTextField(18);
     private JComboBox comboBoxType = new JComboBox();
-    private JButton buttonAdd = new JButton("Add");
+    private JButton buttonAdd = new JButton("Add student");
 
     FrameAddStudent() {}
     FrameAddStudent(FrameCourse frameCourse, SystemDatabase systemDatabase, Course course) {
@@ -31,7 +31,7 @@ public class FrameAddStudent extends JFrame {
         panel.add(panel_2);
 
         JPanel panel_3 = new JPanel(); {
-            panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 40, 15));
+            panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 15, 15));
 
             comboBoxType.addItem("Undergrad");
             comboBoxType.addItem("Graduate");
@@ -58,7 +58,7 @@ public class FrameAddStudent extends JFrame {
                     frameCourse.updateGradeTable();
                     dispose();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Student id already exists!", "EXISTED", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Student already exists!", "EXISTED", JOptionPane.WARNING_MESSAGE);
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Empty info!", "MISSING CONTENT", JOptionPane.INFORMATION_MESSAGE);

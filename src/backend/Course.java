@@ -156,4 +156,26 @@ public class Course {
     public void delStudent() {
         ;
     }
+
+    public boolean assignmentExist(String category, String name) {
+        for (Assignment assignment : assignments) {
+            if (assignment.getCategory().equals(category) && assignment.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addAssignment(String category, String name, Double fullScore, Double weight, String startDate, String dueDate, String note) {
+        Assignment assignment = new Assignment(category, name, fullScore, weight);
+        assignment.setStartDate(startDate);
+        assignment.setDueDate(dueDate);
+        assignment.setNote(note);
+
+        assignments.add(assignment);
+
+        for (Student student : students) {
+            student.getGrades().add(new Grade(fullScore));
+        }
+    }
 }
