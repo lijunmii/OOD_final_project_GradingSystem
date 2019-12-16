@@ -198,7 +198,7 @@ public class Course {
         for (Assignment assignment : assignments) {
             allWeight += assignment.getWeight();
         }
-        return allWeight == 1;
+        return allWeight - 1.0 < 1e-4; // because double add will result in a tiny error. 0.5 + 0.5 = 0.999999...
     }
 
     public void calculateFinalGrade() {

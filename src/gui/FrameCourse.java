@@ -84,6 +84,7 @@ public class FrameCourse extends JFrame {
                 textAreaInfo.setLineWrap(true);
                 textAreaInfo.setWrapStyleWord(true);
                 JScrollPane jScrollPaneInfo = new JScrollPane(textAreaInfo);
+                jScrollPaneInfo.setBorder(BorderFactory.createTitledBorder("Info"));
                 panel_3_1.add(jScrollPaneInfo, BorderLayout.CENTER);
 
                 JPanel panel_3_1_1 = new JPanel(); {
@@ -103,6 +104,7 @@ public class FrameCourse extends JFrame {
                 textAreaComment.setLineWrap(true);
                 textAreaComment.setWrapStyleWord(true);
                 JScrollPane jScrollPaneComment = new JScrollPane(textAreaComment);
+                jScrollPaneComment.setBorder(BorderFactory.createTitledBorder("Comment"));
                 panel_3_2.add(jScrollPaneComment, BorderLayout.CENTER);
 
                 JPanel panel_3_2_1 = new JPanel(); {
