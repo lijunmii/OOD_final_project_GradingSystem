@@ -253,8 +253,8 @@ public class FrameMainMenu extends JFrame {
 
     private boolean subWindowExist() { // one sub window at the same time
         return (frameLogin.isVisible() ||
-                frameRegister.isVisible() ||
-                frameCourse.isVisible() ||
-                frameAddCourse.isVisible());
+            frameRegister.isVisible() ||
+            frameCourse.isVisible() ||
+            frameAddCourse.isVisible());
     }
 }

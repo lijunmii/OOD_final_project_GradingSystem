@@ -41,13 +41,17 @@ public class FrameCourse extends JFrame {
 
     private JLabel labelView = new JLabel("View: ");
     private JButton buttonViewUnderGrad = new JButton("Undergrad");
-    private JButton buttonViewGrad = new JButton("Graduate");
+    private JButton buttonViewGraduate = new JButton("Graduate");
     private JButton buttonViewCategory = new JButton("Category");
 
     private FrameAddStudent frameAddStudent = new FrameAddStudent();
     private FrameAddAssignment frameAddAssignment = new FrameAddAssignment();
     private FrameEditStudentInfo frameEditStudentInfo = new FrameEditStudentInfo();
     private FrameEditAssignmentInfo frameEditAssignmentInfo = new FrameEditAssignmentInfo();
+    private FrameViewUndergrad frameViewUndergrad = new FrameViewUndergrad();
+    private FrameViewGraduate frameViewGraduate = new FrameViewGraduate();
+    private FrameViewCategory frameViewCategory = new FrameViewCategory();
+    private FrameFinalGrade frameFinalGrade = new FrameFinalGrade();
 
     FrameCourse() {}
     FrameCourse(SystemDatabase systemDatabase, Course course) {
@@ -138,7 +142,7 @@ public class FrameCourse extends JFrame {
 
             panel_4.add(labelView);
             panel_4.add(buttonViewUnderGrad);
-            panel_4.add(buttonViewGrad);
+            panel_4.add(buttonViewGraduate);
             panel_4.add(buttonViewCategory);
         }
         panel.add(panel_4, BorderLayout.SOUTH);
@@ -250,6 +254,32 @@ public class FrameCourse extends JFrame {
                 JOptionPane.showMessageDialog(this, "Comment Saved.", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this, "No cell selected.", "NO SELECTION", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        buttonViewUnderGrad.addActionListener(e -> { // view undergraduate students only
+            ;
+        });
+
+        buttonViewGraduate.addActionListener(e -> { // view graduate students only
+            ;
+        });
+
+        buttonViewCategory.addActionListener(e -> { // view a specific category
+            ;
+        });
+
+        buttonCalculateGrades.addActionListener(e -> { // calculate and show final grade
+            if (!subWindowExist()) {
+                if (course.weightAddUp2One()) {
+                    systemDatabase.calculateFinalGrade(course);
+                    systemDatabase.curveFinalGrade(course, course.getCurveNum());
+                    frameFinalGrade = new FrameFinalGrade(systemDatabase, course);
+                    frameFinalGrade.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frameFinalGrade.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Please adjust all assignments' weights to make them add up to 1.", "WRONG WEIGHT SUM", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         });
     }
@@ -384,6 +414,10 @@ public class FrameCourse extends JFrame {
         return (frameAddStudent.isVisible() ||
                 frameAddAssignment.isVisible() ||
                 frameEditStudentInfo.isVisible() ||
-                frameEditAssignmentInfo.isVisible());
+                frameEditAssignmentInfo.isVisible() ||
+                frameViewUndergrad.isVisible() ||
+                frameViewGraduate.isVisible() ||
+                frameViewCategory.isVisible() ||
+                frameFinalGrade.isVisible());
     }
 }

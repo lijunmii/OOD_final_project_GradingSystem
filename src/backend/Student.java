@@ -11,6 +11,8 @@ public class Student implements Comparable<Student> {
     protected String type;
     protected List<Grade> grades = new ArrayList<>();
     protected String comment = "Leave your comment for this student here.";
+    protected Double finalGradeRaw;
+    protected Double finalGradeCurved;
 
     public Student(String studentId, String studentName) {
         this.studentId = studentId;
@@ -69,5 +71,21 @@ public class Student implements Comparable<Student> {
         this.studentId = studentId;
         this.studentName = studentName;
         this.type = types[studentType];
+    }
+
+    public Double getFinalGradeRaw() {
+        return finalGradeRaw;
+    }
+
+    public Double getFinalGradeCurved() {
+        return finalGradeCurved;
+    }
+
+    public void setFinalGradeRaw(Double finalGradeRaw) {
+        this.finalGradeRaw = finalGradeRaw;
+    }
+
+    public void setFinalGradeCurved(Double finalGradeCurved) {
+        this.finalGradeCurved = finalGradeCurved;
     }
 }

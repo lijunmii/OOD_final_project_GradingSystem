@@ -162,4 +162,17 @@ public class SystemDatabase {
 
         save2Database();
     }
+
+    public void calculateFinalGrade(Course course) {
+        course.calculateFinalGrade();
+
+        save2Database();
+    }
+
+    public void curveFinalGrade(Course course, Double curveNum) {
+        course.setCurveNum(curveNum);
+        course.curveFinalGrade();
+
+        save2Database();
+    }
 }

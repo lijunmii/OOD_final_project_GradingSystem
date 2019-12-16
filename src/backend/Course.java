@@ -15,6 +15,7 @@ public class Course {
     private Semester semester;
     private List<Assignment> assignments = new ArrayList<>();
     private List<Student> students = new ArrayList<>();
+    private Double curveNum = 0.0;
 
     public Course(String courseNum, String courseName, Semester semester) {
         this.courseNum = courseNum;
@@ -189,6 +190,52 @@ public class Course {
 
         for (Student student : students) {
             student.getGrades().remove(assignmentIndex);
+        }
+    }
+
+    public boolean weightAddUp2One() {
+        Double allWeight = 0.0;
+        for (Assignment assignment : assignments) {
+            allWeight += assignment.getWeight();
+        }
+        return allWeight == 1;
+    }
+
+    public void calculateFinalGrade() {
+        for (Student student : students) {
+            Double finalScoreRaw = 0.0;
+            for (int i = 0; i < assignments.size(); i++) {
+                Double weight = assignments.get(i).getWeight();
+                if (student.getGrades().get(i).getScore() == null) {
+                    continue;
+                }
+                Double score = student.getGrades().get(i).getScore();
+                Double fullScore = student.getGrades().get(i).getFullScore();
+                finalScoreRaw += score / fullScore * weight;
+            }
+            if (finalScoreRaw > 1) {
+                finalScoreRaw = 1.0;
+            }
+            finalScoreRaw *= 100;
+            student.setFinalGradeRaw(finalScoreRaw);
+        }
+    }
+
+    public Double getCurveNum() {
+        return curveNum;
+    }
+
+    public void setCurveNum(Double curveNum) {
+        this.curveNum = curveNum;
+    }
+
+    public void curveFinalGrade() {
+        for (Student student : students) {
+            Double finalGradeCurved = student.getFinalGradeRaw() + curveNum;
+            if (finalGradeCurved > 100) {
+                finalGradeCurved = 100.0;
+            }
+            student.setFinalGradeCurved(finalGradeCurved);
         }
     }
 }
