@@ -307,6 +307,8 @@ public class FrameCourse extends JFrame {
                     frameViewCategory = new FrameViewCategory(course, category);
                     frameViewCategory.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     frameViewCategory.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(this, "No assignment selected.", "NO SELECTION", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         });
@@ -377,7 +379,7 @@ public class FrameCourse extends JFrame {
             tableGrades.setRowSelectionInterval(0, 0);
         }
 
-        setSize();
+        setLook();
 
         scrollPaneGrades = new JScrollPane(tableGrades);
         scrollPaneGrades.setBorder(BorderFactory.createTitledBorder("Grades"));
@@ -389,7 +391,7 @@ public class FrameCourse extends JFrame {
         panel_2.updateUI();
 
         textAreaInfo.setText("You will see student or assignment info here.");
-        textAreaComment.setText("Leave your comment here.");
+        textAreaComment.setText("Leave or edit your comment here.");
     }
 
     public void setData() {
@@ -411,7 +413,7 @@ public class FrameCourse extends JFrame {
         }
     }
 
-    public void setSize() { // set table size, col width...
+    public void setLook() { // set table size, col width...
         tableGrades.setBorder(new EtchedBorder());
         tableGrades.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         tableGrades.getTableHeader().setReorderingAllowed(false);
@@ -422,6 +424,10 @@ public class FrameCourse extends JFrame {
             tableGrades.getColumnModel().getColumn(i).setPreferredWidth(125);
         }
         tableGrades.setRowHeight(25);
+
+        tableGrades.setShowGrid(true);
+        tableGrades.setShowHorizontalLines(true);
+        tableGrades.setShowVerticalLines(true);
     }
 
     public TableModel setModel() {

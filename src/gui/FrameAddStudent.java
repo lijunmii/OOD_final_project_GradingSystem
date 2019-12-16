@@ -11,7 +11,7 @@ public class FrameAddStudent extends JFrame {
     private JTextField inputId = new JTextField(18);
     private JTextField inputName = new JTextField(18);
     private JComboBox comboBoxType = new JComboBox();
-    private JButton buttonAdd = new JButton("Add student");
+    private JButton buttonAdd = new JButton("Add");
 
     FrameAddStudent() {}
     FrameAddStudent(FrameCourse frameCourse, SystemDatabase systemDatabase, Course course) {

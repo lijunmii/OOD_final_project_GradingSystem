@@ -236,6 +236,10 @@ public class FrameMainMenu extends JFrame {
 
         listCourses.getTableHeader().setReorderingAllowed(false);
 
+        listCourses.setShowGrid(true);
+        listCourses.setShowHorizontalLines(true);
+        listCourses.setShowVerticalLines(true);
+
         if (listCourses.getRowCount() > 0) {
             listCourses.setRowSelectionInterval(0, 0);
         }

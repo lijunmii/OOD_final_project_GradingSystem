@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Grade implements Serializable {
     private Double score;
     private Double fullScore;
-    private String comment = "Leave your comment for this grade here.";
+    private String comment = "";
 
     public Grade(double score, double fullScore) {
         this.score = score;

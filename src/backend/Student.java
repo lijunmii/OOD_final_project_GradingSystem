@@ -11,7 +11,7 @@ public class Student implements Comparable<Student>, Serializable {
     protected String studentName;
     protected String type;
     protected List<Grade> grades = new ArrayList<>();
-    protected String comment = "Leave your comment for this student here.";
+    protected String comment = "";
     protected Double finalGradeRaw;
     protected Double finalGradeCurved;
 

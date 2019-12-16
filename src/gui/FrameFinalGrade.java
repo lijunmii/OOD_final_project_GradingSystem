@@ -63,6 +63,9 @@ public class FrameFinalGrade extends JFrame {
             tableFinalGrade.setRowSorter(sorter);
             tableFinalGrade.setRowHeight(25);
             tableFinalGrade.getTableHeader().setReorderingAllowed(false);
+            tableFinalGrade.setShowGrid(true);
+            tableFinalGrade.setShowHorizontalLines(true);
+            tableFinalGrade.setShowVerticalLines(true);
 
             scrollPaneFinalGrade = new JScrollPane(tableFinalGrade);
             scrollPaneFinalGrade.setBorder(BorderFactory.createTitledBorder("Final grade"));
@@ -113,6 +116,9 @@ public class FrameFinalGrade extends JFrame {
                 tableFinalGrade.setRowSorter(sorter);
                 tableFinalGrade.setRowHeight(25);
                 tableFinalGrade.getTableHeader().setReorderingAllowed(false);
+                tableFinalGrade.setShowGrid(true);
+                tableFinalGrade.setShowHorizontalLines(true);
+                tableFinalGrade.setShowVerticalLines(true);
 
                 scrollPaneFinalGrade = new JScrollPane(tableFinalGrade);
                 scrollPaneFinalGrade.setBorder(BorderFactory.createTitledBorder("Final grade"));
