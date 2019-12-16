@@ -63,6 +63,7 @@ public class FrameFinalGrade extends JFrame {
             tableFinalGrade.setRowSorter(sorter);
             tableFinalGrade.setRowHeight(25);
             tableFinalGrade.getTableHeader().setReorderingAllowed(false);
+            tableFinalGrade.setGridColor(Color.BLACK);
             tableFinalGrade.setShowGrid(true);
             tableFinalGrade.setShowHorizontalLines(true);
             tableFinalGrade.setShowVerticalLines(true);
@@ -116,6 +117,7 @@ public class FrameFinalGrade extends JFrame {
                 tableFinalGrade.setRowSorter(sorter);
                 tableFinalGrade.setRowHeight(25);
                 tableFinalGrade.getTableHeader().setReorderingAllowed(false);
+                tableFinalGrade.setGridColor(Color.BLACK);
                 tableFinalGrade.setShowGrid(true);
                 tableFinalGrade.setShowHorizontalLines(true);
                 tableFinalGrade.setShowVerticalLines(true);

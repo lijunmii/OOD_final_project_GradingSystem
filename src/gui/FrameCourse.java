@@ -425,6 +425,7 @@ public class FrameCourse extends JFrame {
         }
         tableGrades.setRowHeight(25);
 
+        tableGrades.setGridColor(Color.BLACK);
         tableGrades.setShowGrid(true);
         tableGrades.setShowHorizontalLines(true);
         tableGrades.setShowVerticalLines(true);

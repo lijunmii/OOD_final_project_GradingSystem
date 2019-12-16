@@ -126,6 +126,8 @@ public class FrameViewUndergrad extends JFrame {
                 tableGrades.getColumnModel().getColumn(i).setPreferredWidth(125);
             }
             tableGrades.setRowHeight(25);
+
+            tableGrades.setGridColor(Color.BLACK);
             tableGrades.setShowGrid(true);
             tableGrades.setShowHorizontalLines(true);
             tableGrades.setShowVerticalLines(true);

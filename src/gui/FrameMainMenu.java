@@ -236,6 +236,7 @@ public class FrameMainMenu extends JFrame {
 
         listCourses.getTableHeader().setReorderingAllowed(false);
 
+        listCourses.setGridColor(Color.BLACK);
         listCourses.setShowGrid(true);
         listCourses.setShowHorizontalLines(true);
         listCourses.setShowVerticalLines(true);
