@@ -259,15 +259,15 @@ public class FrameCourse extends JFrame {
             }
         });
 
-        buttonViewUnderGrad.addActionListener(e -> { // view undergraduate students only
+        buttonViewUnderGrad.addActionListener(e -> { // todo:view undergraduate students only
             ;
         });
 
-        buttonViewGraduate.addActionListener(e -> { // view graduate students only
+        buttonViewGraduate.addActionListener(e -> { // todo:view graduate students only
             ;
         });
 
-        buttonViewCategory.addActionListener(e -> { // view a specific category
+        buttonViewCategory.addActionListener(e -> { // todo:view a specific category
             ;
         });
 
