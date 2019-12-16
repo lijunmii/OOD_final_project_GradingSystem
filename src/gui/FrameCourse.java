@@ -283,15 +283,32 @@ public class FrameCourse extends JFrame {
         });
 
         buttonViewUnderGrad.addActionListener(e -> { // todo:view undergraduate students only
-            ;
+            if (!subWindowExist()) {
+                frameViewUndergrad = new FrameViewUndergrad(course);
+                frameViewUndergrad.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frameViewUndergrad.setVisible(true);
+            }
         });
 
         buttonViewGraduate.addActionListener(e -> { // todo:view graduate students only
-            ;
+            if (!subWindowExist()) {
+                frameViewGraduate = new FrameViewGraduate(course);
+                frameViewGraduate.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frameViewGraduate.setVisible(true);
+            }
         });
 
         buttonViewCategory.addActionListener(e -> { // todo:view a specific category
-            ;
+            if (!subWindowExist()) {
+                int column = tableGrades.getSelectedColumn();
+                if (column > 0) {
+                    int assignmentIndex = column - 1;
+                    String category = course.getAssignments().get(assignmentIndex).getCategory();
+                    frameViewCategory = new FrameViewCategory(course, category);
+                    frameViewCategory.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    frameViewCategory.setVisible(true);
+                }
+            }
         });
 
         buttonCalculateGrades.addActionListener(e -> { // calculate and show final grade
