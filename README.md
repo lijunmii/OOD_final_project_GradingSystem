@@ -23,11 +23,22 @@ Last but not least, it has some new features which makes grading much easier. Fe
 
 Goals (What goals did you have, which ones did you meet and didn’t meet)
 
+Our goals are to design a flexible and easy-to-use grading system with a GUI, along with many new features such as comments, import data from files and etc.
+
+Among all these goals, we have implemented the Graphical User Interface, comments on specific comments, client management, and file inputs.
 
 
 Object Diagram ( Note that a UML diagram that lists every class is meaningless. We are looking for a very simple but informative diagram, something as simple as what class of objects talk to other classes or depends on other classes of objects)
 
+class SystemDatabase
+* This class serves as the database class within the application. From this class, it allows to connect/disconnect from the database. And it can read/write to the database as well.
+The benefit of this class is that having a single class that deals with the database operations makes things easier for developers to maintain/add/delete features of the application related to the database operations. From this single class, developers can control the data source and it is very easy to modify.
+The design decision is based on we have “Clients” acted as the users who use the grading system. So we save the client information as byte stream, which is portable and easy to save/read from the database.
+
 
 
 Object Justification (List out objects or class of objects (Do need to list every single object) (Justify each group of objects, i.e. explains what it represents/does and why need it)
+
+class SystemDatabase
+* The reason we need to have this class is that it provides a single place for developers to maintain the database operations such as read, write to the database. Every database operation is called from this class and we then transfer them to other objects such as Client. It is important to have a database to use the persistent storage which saves the progress of the grading.
 
