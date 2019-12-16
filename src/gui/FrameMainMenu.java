@@ -231,6 +231,11 @@ public class FrameMainMenu extends JFrame {
 
         listCourses.setModel(model);
         listCourses.setRowSorter(sorter);
+
+        listCourses.setRowHeight(25);
+
+        listCourses.getTableHeader().setReorderingAllowed(false);
+
         if (listCourses.getRowCount() > 0) {
             listCourses.setRowSelectionInterval(0, 0);
         }

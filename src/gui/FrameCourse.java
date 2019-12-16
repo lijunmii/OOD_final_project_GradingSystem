@@ -39,11 +39,10 @@ public class FrameCourse extends JFrame {
 
     private JButton buttonCalculateGrades = new JButton("<html>&nbsp;&nbsp;CALCULATE<br>FINAL GRADES</html>");
 
-    private JButton buttonViewUnderGrad = new JButton("View undergrad");
-    private JButton buttonViewGrad = new JButton("View graduate");
-    private JButton buttonViewCategory = new JButton("View category");
-    private JButton buttonShowPercentage = new JButton("Percentage");
-    private JButton buttonShowRawScore = new JButton("Raw score");
+    private JLabel labelView = new JLabel("View: ");
+    private JButton buttonViewUnderGrad = new JButton("Undergrad");
+    private JButton buttonViewGrad = new JButton("Graduate");
+    private JButton buttonViewCategory = new JButton("Category");
 
     private FrameAddStudent frameAddStudent = new FrameAddStudent();
     private FrameAddAssignment frameAddAssignment = new FrameAddAssignment();
@@ -64,10 +63,6 @@ public class FrameCourse extends JFrame {
         panel.add(panel_1, BorderLayout.NORTH);
 
         panel_2 = new JPanel(); {
-            panel_2.setLayout(new GridLayout(1, 1));
-            panel_2.setBorder(new EtchedBorder());
-
-            setModel();
             updateGradeTable();
         }
         panel.add(panel_2, BorderLayout.CENTER);
@@ -114,7 +109,7 @@ public class FrameCourse extends JFrame {
             panel_3.add(panel_3_2);
 
             JPanel panel_3_3 = new JPanel(); {
-                panel_3_3.setPreferredSize(new Dimension(300, 0));
+                //panel_3_3.setPreferredSize(new Dimension(300, 0));
                 panel_3_3.setLayout(new GridLayout(1, 2));
                 panel_3_3.setBorder(new EtchedBorder());
 
@@ -141,19 +136,16 @@ public class FrameCourse extends JFrame {
         JPanel panel_4 = new JPanel(); {
             panel_4.setBorder(new EtchedBorder());
 
+            panel_4.add(labelView);
             panel_4.add(buttonViewUnderGrad);
             panel_4.add(buttonViewGrad);
-
             panel_4.add(buttonViewCategory);
-
-            panel_4.add(buttonShowPercentage);
-            panel_4.add(buttonShowRawScore);
         }
         panel.add(panel_4, BorderLayout.SOUTH);
 
         add(panel);
         setTitle(course.toString());
-        setSize(800, 600);
+        setSize(1000, 600);
         setLocationRelativeTo(null);
         setResizable(false);
 
@@ -267,15 +259,13 @@ public class FrameCourse extends JFrame {
         tableGrades = new JTable(gradeData, columnNames);
 
         TableModel model = setModel();
-
         RowSorter<TableModel> sorter = new TableRowSorter<>(model);
-
         tableGrades.setModel(model);
         tableGrades.setRowSorter(sorter);
 
         tableGrades.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        tableGrades.getSelectionModel().addListSelectionListener(e -> {
+        tableGrades.getSelectionModel().addListSelectionListener(e -> { // print info & comment when a new cell is selected
             int row = tableGrades.getSelectedRow();
             int column = tableGrades.getSelectedColumn();
 
@@ -293,7 +283,7 @@ public class FrameCourse extends JFrame {
             }
         });
 
-        tableGrades.getColumnModel().getSelectionModel().addListSelectionListener(e -> {
+        tableGrades.getColumnModel().getSelectionModel().addListSelectionListener(e -> { // print info & comment when a new cell is selected
             int row = tableGrades.getSelectedRow();
             int column = tableGrades.getSelectedColumn();
 
@@ -310,18 +300,19 @@ public class FrameCourse extends JFrame {
                 }
             }
         });
-
-        tableGrades.getTableHeader().setReorderingAllowed(false);
 
         if (tableGrades.getRowCount() > 0) {
             tableGrades.setRowSelectionInterval(0, 0);
         }
 
+        setSize();
+
+        scrollPaneGrades = new JScrollPane(tableGrades);
+        scrollPaneGrades.setBorder(BorderFactory.createTitledBorder("Grades"));
+
         panel_2.removeAll();
         panel_2.setLayout(new GridLayout(1, 1));
         panel_2.setBorder(BorderFactory.createEtchedBorder());
-        scrollPaneGrades = new JScrollPane(tableGrades);
-        scrollPaneGrades.setBorder(BorderFactory.createTitledBorder("Courses"));
         panel_2.add(scrollPaneGrades);
         panel_2.updateUI();
 
@@ -348,23 +339,25 @@ public class FrameCourse extends JFrame {
         }
     }
 
+    public void setSize() { // set table size, col width...
+        tableGrades.setBorder(new EtchedBorder());
+        tableGrades.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        tableGrades.getTableHeader().setReorderingAllowed(false);
+        // the two lines below disable the vertical scroller, so don't use them
+        //tableGrades.setPreferredSize(new Dimension(tableGrades.getColumnCount() * 120, 425));
+        //tableGrades.getTableHeader().setPreferredSize(new Dimension(tableGrades.getColumnCount() * 120, 30));
+        for (int i = 0; i < tableGrades.getColumnCount(); i++) {
+            tableGrades.getColumnModel().getColumn(i).setPreferredWidth(125);
+        }
+        tableGrades.setRowHeight(25);
+    }
+
     public TableModel setModel() {
         TableModel model = new DefaultTableModel(gradeData, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return column == 0 ? false : true;
             }
-
-            // todo:sort numerical rather than alphabetical, and keep it editable
-//            @Override
-//            public Class getColumnClass(int columnIndex) {
-//                if (columnIndex == 0) {
-//                    return String.class;
-//                }
-//                return Number.class;
-//            }
-
-            // todo: set col width
         };
 
         model.addTableModelListener(e -> { // update grade after editing
@@ -378,7 +371,7 @@ public class FrameCourse extends JFrame {
             } else if (Tools.isNumeric(newScoreStr.substring(0, newScoreStr.length() - 1)) && newScoreStr.substring(newScoreStr.length() - 1).equals("%")) { // set percentage score
                 systemDatabase.updateGrade(course, row, column - 1, newScoreStr);
                 updateGradeTable();
-            } else  {
+            } else {
                 JOptionPane.showMessageDialog(this, "Wrong form (number only).", "WRONG FORM", JOptionPane.INFORMATION_MESSAGE);
                 updateGradeTable();
             }

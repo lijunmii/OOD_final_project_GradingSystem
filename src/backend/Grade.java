@@ -55,6 +55,8 @@ public class Grade {
         if (score == null) {
             return "";
         }
-        return score.toString();
+        String percentageScore = Tools.df_3_1.format(score / fullScore * 100)  + "%";
+        String rawScore = Tools.df_X_1.format(score);
+        return "P: " + percentageScore + "   R: " + rawScore;
     }
 }
