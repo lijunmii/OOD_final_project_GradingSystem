@@ -1,6 +1,8 @@
 package backend;
 
-public enum Season {
+import java.io.Serializable;
+
+public enum Season implements Serializable {
     Spring("Q1 Spring", 1),
     Summer("Q2 Summer", 2),
     Fall("Q3 Fall", 3),

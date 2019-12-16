@@ -1,6 +1,8 @@
 package backend;
 
-public class Assignment {
+import java.io.Serializable;
+
+public class Assignment implements Serializable {
     private String category;
     private String name;
     private Double fullScore;

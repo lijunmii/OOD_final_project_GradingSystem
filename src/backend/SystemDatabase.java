@@ -4,15 +4,38 @@ import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.sql.*;
+
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Group 21
+ * @date Dec. 12, 2019
+ */
 public class SystemDatabase {
     private List<Client> clients;
 
+    /** database credentials including host, username, password */
+    private static final String url = "jdbc:mysql://localhost:3306/grading?useSSL=false";
+    private static final String user = "root";
+    private static final String password = "pass";
+
+    private static Connection conn;
+    private static Statement stmt;
+    private static ResultSet res;
+
     public SystemDatabase() {
         clients = new ArrayList<>();
+        connectDatabase();
+        readFromDatabase();
+
     }
 
     public SystemDatabase(String testStr) {
@@ -27,7 +50,7 @@ public class SystemDatabase {
         client.addCourse("CS640", "Artificial Intelligence", new Semester(2019, Season.Fall));
         clients.add(client);
 
-        readClients();
+        //readFromDatabase();
     }
 
     public Client getClient(String username) {
@@ -64,115 +87,201 @@ public class SystemDatabase {
         return false;
     }
 
-    public void readClients() {
-        //todo: read clients from db
+    public void readFromDatabase() {
+        String query = "select * from clientByte";
+        try {
+            // opening db connection to MySQL server
+            stmt = conn.createStatement();
+            res = stmt.executeQuery(query);
+            while (res.next()) {
+                Client c = byte2obj(res.getBytes("javaObject"));
+                clients.add(c);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try { stmt.close(); } catch (SQLException e) {e.printStackTrace();}
+            try { res.close(); } catch (SQLException e) {e.printStackTrace();}
+        }
     }
 
-    public void save2Database() {
-        //todo: save clients into db
+    public void saveToDatabase() {
+        try {
+            String clearQuery = "TRUNCATE TABLE clientByte";
+            stmt = conn.createStatement();
+            stmt.executeUpdate(clearQuery);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            try { stmt.close(); } catch (SQLException e) {e.printStackTrace();}
+        }
+        for(Client c: clients){
+            try {
+                String userName = c.getUsername();
+                String query = "Insert clientByte values(?,?)";
+                PreparedStatement preStat = conn.prepareStatement(query);
+                byte [] clientBytes = obj2byte(c);
+                preStat.setString(1,userName);
+                preStat.setBytes(2,clientBytes);
+                preStat.executeUpdate();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try { stmt.close(); } catch (SQLException e) {e.printStackTrace();}
+            }
+        }
     }
 
     // functions below will write data into db
     public void register(String username, String password) {
         clients.add(new Client(username, password));
 
-        save2Database();
+        saveToDatabase();
     }
 
     public void addCourse(String username, String courseNum, String courseName, Semester semester) {
         getClient(username).addCourse(courseNum, courseName, semester);
 
-        save2Database();
+        saveToDatabase();
     }
 
     public void delCourse(String username, List<String> courseNums, List<String> semesters) {
         getClient(username).delCourse(courseNums, semesters);
 
-        save2Database();
+        saveToDatabase();
     }
 
     public void updateCourseInfo(String username, int courseIndex, String courseNum, String courseName) {
         getClient(username).updateCourseInfo(courseIndex, courseNum, courseName);
 
-        save2Database();
+        saveToDatabase();
     }
 
     public void importExcel(File f, Course course) {
         course.importExcel(f);
 
-        save2Database();
+        saveToDatabase();
     }
 
     public void updateGrade(Course course, int studentIndex, int assignmentIndex, Double newScore) {
         course.updateGrade(studentIndex, assignmentIndex, newScore);
 
-        save2Database();
+        saveToDatabase();
     }
 
     public void updateGrade(Course course, int studentIndex, int assignmentIndex, String newScoreStr) {
         course.updateGrade(studentIndex, assignmentIndex, newScoreStr);
 
-        save2Database();
+        saveToDatabase();
     }
 
     public void updateComment(Student student, String comment) {
         student.setComment(comment);
 
-        save2Database();
+        saveToDatabase();
     }
 
     public void updateComment(Student student, int assignmentIndex, String comment) {
         student.getGrades().get(assignmentIndex).setComment(comment);
 
-        save2Database();
+        saveToDatabase();
     }
 
     public void addStudent(Course course, String studentId, String studentName, int studentType) {
         course.addStudent(studentId, studentName, studentType);
 
-        save2Database();
+        saveToDatabase();
     }
 
     public void updateStudentInfo(Student student, String studentId, String studentName, int studentType) {
         student.updateInfo(studentId, studentName, studentType);
 
-        save2Database();
+        saveToDatabase();
     }
 
     public void delStudent(Course course, String studentId) {
         course.delStudent(studentId);
 
-        save2Database();
+        saveToDatabase();
     }
 
     public void addAssignment(Course course, String category, String name, Double fullScore, Double weight, String startDate, String dueDate, String note) {
         course.addAssignment(category, name, fullScore, weight, startDate, dueDate, note);
 
-        save2Database();
+        saveToDatabase();
     }
 
     public void updateAssignmentInfo(Assignment assignment, String category, String name, Double fullScore, Double weight, String startDate, String dueDate, String note) {
         assignment.updateInfo(category, name, fullScore, weight, startDate, dueDate, note);
 
-        save2Database();
+        saveToDatabase();
     }
 
     public void delAssignment(Course course, int assignmentIndex) {
         course.delAssignment(assignmentIndex);
 
-        save2Database();
+        saveToDatabase();
     }
 
     public void calculateFinalGrade(Course course) {
         course.calculateFinalGrade();
 
-        save2Database();
+        saveToDatabase();
     }
 
     public void curveFinalGrade(Course course, Double curveNum) {
         course.setCurveNum(curveNum);
         course.curveFinalGrade();
 
-        save2Database();
+        saveToDatabase();
+    }
+
+    /**
+     * Convert Java Object to Byte[]
+     */
+    public static byte[] obj2byte(Object obj) throws Exception {
+        byte[] ret = null;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream out = new ObjectOutputStream(baos);
+        out.writeObject(obj);
+        out.close();
+        ret = baos.toByteArray();
+        baos.close();
+        return ret;
+    }
+
+    /**
+     * Convert byte[] to Java object
+     */
+    public static Client byte2obj(byte[] bytes) throws Exception {
+        Object ret = null;
+        ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+        ObjectInputStream in = new ObjectInputStream(bais);
+        ret = in.readObject();
+        in.close();
+        return (Client)ret;
+    }
+
+    /**
+     * Connection to the local Database
+     */
+    public void connectDatabase() {
+        try {
+            // opening db connection to MySQL server
+            conn = DriverManager.getConnection(url, user, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Disconnect to the local Database
+     */
+    public void disconnectDatabase() {
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

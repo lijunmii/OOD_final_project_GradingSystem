@@ -1,6 +1,8 @@
 package backend;
 
-public class Grade {
+import java.io.Serializable;
+
+public class Grade implements Serializable {
     private Double score;
     private Double fullScore;
     private String comment = "Leave your comment for this grade here.";

@@ -1,6 +1,8 @@
 package backend;
 
-public class StudentGrad extends Student {
+import java.io.Serializable;
+
+public class StudentGrad extends Student implements Serializable {
     StudentGrad(String studentId, String studentName) {
         super(studentId, studentName);
         type = types[1];

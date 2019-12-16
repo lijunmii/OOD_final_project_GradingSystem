@@ -5,11 +5,12 @@ import jxl.Sheet;
 import jxl.Workbook;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Course {
+public class Course implements Serializable {
     private String courseNum;
     private String courseName;
     private Semester semester;

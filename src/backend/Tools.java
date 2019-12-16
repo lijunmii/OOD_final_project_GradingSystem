@@ -1,11 +1,12 @@
 package backend;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
 
-public class Tools {
+public class Tools implements Serializable {
     public static DecimalFormat df_3_1 = new DecimalFormat("000.0");
     public static DecimalFormat df_X_1 = new DecimalFormat("0.0");
 

@@ -1,6 +1,8 @@
 package backend;
 
-public class Semester implements Comparable {
+import java.io.Serializable;
+
+public class Semester implements Comparable, Serializable {
     private Integer year;
     private Season season;
 

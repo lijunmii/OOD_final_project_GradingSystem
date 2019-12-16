@@ -1,9 +1,10 @@
 package backend;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Student implements Comparable<Student> {
+public class Student implements Comparable<Student>, Serializable {
     protected static final String[] types = {"U", "G"};
 
     protected String studentId;
