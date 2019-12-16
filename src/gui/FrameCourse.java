@@ -132,7 +132,7 @@ public class FrameCourse extends JFrame {
                 panel_3_3.add(panel_3_3_1);
 
                 JPanel panel_3_3_2 = new JPanel(); {
-                    buttonCalculateGrades.setPreferredSize(new Dimension(140, 150));
+                    buttonCalculateGrades.setPreferredSize(new Dimension(140, 175));
                     panel_3_3_2.add(buttonCalculateGrades);
                 }
                 panel_3_3.add(panel_3_3_2);
@@ -152,7 +152,7 @@ public class FrameCourse extends JFrame {
 
         add(panel);
         setTitle(course.toString());
-        setSize(1000, 600);
+        setSize(1250, 666);
         setLocationRelativeTo(null);
         setResizable(false);
 

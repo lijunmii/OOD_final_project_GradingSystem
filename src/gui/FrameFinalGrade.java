@@ -68,9 +68,11 @@ public class FrameFinalGrade extends JFrame {
             scrollPaneFinalGrade.setBorder(BorderFactory.createTitledBorder("Final grade"));
             panel_2.add(scrollPaneFinalGrade);
         }
-        panel.add(panel_2, BorderLayout.WEST);
+        panel.add(panel_2, BorderLayout.CENTER);
 
         JPanel panel_3 = new JPanel(); {
+            panel_3.setBorder(new EtchedBorder());
+
             textFieldCurve.setText(course.getCurveNum().toString());
             panel_3.add(textFieldCurve);
             panel_3.add(new JLabel("%"));
@@ -138,7 +140,7 @@ public class FrameFinalGrade extends JFrame {
             String statistics = "Mean: " + Tools.df_X_1.format(mean);
             statistics += "\nMedian: " + Tools.df_X_1.format(median);
             statistics += "\nStandard deviation: " + Tools.df_X_1.format(standardDeviation);
-            JOptionPane.showMessageDialog(this, statistics, "STATISTICS", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, statistics, "FINAL STATISTICS", JOptionPane.INFORMATION_MESSAGE);
         });
     }
 }

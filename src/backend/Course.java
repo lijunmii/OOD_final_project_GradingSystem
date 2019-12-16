@@ -197,9 +197,7 @@ public class Course {
         Double allWeight = 0.0;
         for (Assignment assignment : assignments) {
             allWeight += assignment.getWeight();
-            System.out.print(assignment.getWeight() + " ");
         }
-        System.out.println(allWeight);
         return Math.abs(allWeight - 1.0) < 1e-4; // because double add will result in a tiny error. 0.5 + 0.5 = 0.999999...
     }
 
