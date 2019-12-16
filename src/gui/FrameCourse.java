@@ -12,6 +12,7 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class FrameCourse extends JFrame {
@@ -28,6 +29,7 @@ public class FrameCourse extends JFrame {
 
     private JTextArea textAreaInfo = new JTextArea();
     private JButton buttonEditInfo = new JButton("Edit info");
+    private JButton buttonStatistics = new JButton("Statistics");
     private JTextArea textAreaComment = new JTextArea();
     private JButton buttonSaveComment = new JButton("Save comment");
 
@@ -39,10 +41,9 @@ public class FrameCourse extends JFrame {
 
     private JButton buttonCalculateGrades = new JButton("<html>&nbsp;&nbsp;CALCULATE<br>FINAL GRADES</html>");
 
-    private JLabel labelView = new JLabel("View: ");
-    private JButton buttonViewUnderGrad = new JButton("Undergrad");
-    private JButton buttonViewGraduate = new JButton("Graduate");
-    private JButton buttonViewCategory = new JButton("Category");
+    private JButton buttonViewUnderGrad = new JButton("View undergrad");
+    private JButton buttonViewGraduate = new JButton("View graduate");
+    private JButton buttonViewCategory = new JButton("View category");
 
     private FrameAddStudent frameAddStudent = new FrameAddStudent();
     private FrameAddAssignment frameAddAssignment = new FrameAddAssignment();
@@ -89,6 +90,7 @@ public class FrameCourse extends JFrame {
 
                 JPanel panel_3_1_1 = new JPanel(); {
                     panel_3_1_1.add(buttonEditInfo);
+                    panel_3_1_1.add(buttonStatistics);
                 }
 
                 panel_3_1.add(panel_3_1_1, BorderLayout.SOUTH);
@@ -142,7 +144,6 @@ public class FrameCourse extends JFrame {
         JPanel panel_4 = new JPanel(); {
             panel_4.setBorder(new EtchedBorder());
 
-            panel_4.add(labelView);
             panel_4.add(buttonViewUnderGrad);
             panel_4.add(buttonViewGraduate);
             panel_4.add(buttonViewCategory);
@@ -236,6 +237,28 @@ public class FrameCourse extends JFrame {
                 } else {
                     JOptionPane.showMessageDialog(this, "No cell selected.", "NO SELECTION", JOptionPane.INFORMATION_MESSAGE);
                 }
+            }
+        });
+
+        buttonStatistics.addActionListener(e -> { // show assignment statistics: mean, median, standard deviation
+            int column = tableGrades.getSelectedColumn();
+            if (column > 0) {
+                int assignmentIndex = column - 1;
+                List<Double> grades = new ArrayList<>();
+                for (Student student : course.getStudents()) {
+                    if (student.getGrades().get(assignmentIndex).getScore() != null) {
+                        grades.add(student.getGrades().get(assignmentIndex).getScore());
+                    }
+                }
+                Double mean = Tools.mean(grades);
+                Double median = Tools.median(grades);
+                Double standardDeviation = Tools.standardDeviation(grades.toArray(new Double[grades.size()]));
+                String statistics = "Mean: " + Tools.df_X_1.format(mean);
+                statistics += "\nMedian: " + Tools.df_X_1.format(median);
+                statistics += "\nStandard deviation: " + Tools.df_X_1.format(standardDeviation);
+                JOptionPane.showMessageDialog(this, statistics, "STATISTICS", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "No assignment selected.", "NO SELECTION", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 

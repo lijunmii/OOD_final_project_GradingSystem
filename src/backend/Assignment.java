@@ -86,7 +86,7 @@ public class Assignment {
         return name;
     }
 
-    public String getInfo() { // todo: add statistics: mean, median, standard deviation
+    public String getInfo() {
         String info = "Assignment name: " + name;
         info += "\nCategory: " + category;
         info += "\nFull score: " + fullScore;

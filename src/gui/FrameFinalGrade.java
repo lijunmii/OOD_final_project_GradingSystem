@@ -8,6 +8,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FrameFinalGrade extends JFrame {
     private JPanel panel = new JPanel();
@@ -20,6 +22,8 @@ public class FrameFinalGrade extends JFrame {
 
     private JTextField textFieldCurve = new JTextField(5);
     private JButton buttonCurve = new JButton("Curve");
+
+    private JButton buttonStatistics = new JButton("Statistics");
 
     FrameFinalGrade() {}
     FrameFinalGrade(SystemDatabase systemDatabase, Course course) {
@@ -39,8 +43,10 @@ public class FrameFinalGrade extends JFrame {
             finalGrade = new Object[course.getStudents().size()][3];
             for (int i = 0; i < finalGrade.length; i++) {
                 finalGrade[i][0] = course.getStudents().get(i).getStudentId();
-                finalGrade[i][1] = Tools.df_3_1.format(course.getStudents().get(i).getFinalGradeRaw()) + "%";
-                finalGrade[i][2] = Tools.df_3_1.format(course.getStudents().get(i).getFinalGradeCurved()) + "%";
+                finalGrade[i][1] = Tools.df_X_1.format(course.getStudents().get(i).getFinalGradeRaw()) + "%";
+                finalGrade[i][2] = Tools.df_X_1.format(course.getStudents().get(i).getFinalGradeCurved()) + "%";
+                //finalGrade[i][1] = Tools.df_3_1.format(course.getStudents().get(i).getFinalGradeRaw()) + "%";
+                //finalGrade[i][2] = Tools.df_3_1.format(course.getStudents().get(i).getFinalGradeCurved()) + "%";
             }
 
             tableFinalGrade = new JTable(finalGrade, columnNames);
@@ -67,8 +73,10 @@ public class FrameFinalGrade extends JFrame {
         JPanel panel_3 = new JPanel(); {
             textFieldCurve.setText(course.getCurveNum().toString());
             panel_3.add(textFieldCurve);
-            panel_3.add(new JLabel("%     "));
+            panel_3.add(new JLabel("%"));
             panel_3.add(buttonCurve);
+
+            panel_3.add(buttonStatistics);
         }
         panel.add(panel_3, BorderLayout.SOUTH);
 
@@ -86,9 +94,9 @@ public class FrameFinalGrade extends JFrame {
 
                 // update panel_2
                 for (int i = 0; i < finalGrade.length; i++) {
-                    finalGrade[i][2] = Tools.df_3_1.format(course.getStudents().get(i).getFinalGradeCurved()) + "%";
+                    finalGrade[i][2] = Tools.df_X_1.format(course.getStudents().get(i).getFinalGradeCurved()) + "%";
+                    //finalGrade[i][2] = Tools.df_3_1.format(course.getStudents().get(i).getFinalGradeCurved()) + "%";
                 }
-
                 tableFinalGrade = new JTable(finalGrade, columnNames);
 
                 TableModel model = new DefaultTableModel(finalGrade, columnNames) {
@@ -115,6 +123,22 @@ public class FrameFinalGrade extends JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid input.", "INVALID INPUT", JOptionPane.WARNING_MESSAGE);
             }
+        });
+
+        buttonStatistics.addActionListener(e -> { // show final grade statistics: mean, median, standard deviation
+            List<Double> grades = new ArrayList<>();
+            for (Student student : course.getStudents()) {
+                if (student.getFinalGradeCurved() != null) {
+                    grades.add(student.getFinalGradeCurved());
+                }
+            }
+            Double mean = Tools.mean(grades);
+            Double median = Tools.median(grades);
+            Double standardDeviation = Tools.standardDeviation(grades.toArray(new Double[grades.size()]));
+            String statistics = "Mean: " + Tools.df_X_1.format(mean);
+            statistics += "\nMedian: " + Tools.df_X_1.format(median);
+            statistics += "\nStandard deviation: " + Tools.df_X_1.format(standardDeviation);
+            JOptionPane.showMessageDialog(this, statistics, "STATISTICS", JOptionPane.INFORMATION_MESSAGE);
         });
     }
 }
