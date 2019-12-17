@@ -79,7 +79,6 @@ public class FrameCourse extends JFrame {
                 panel_3_1.setBorder(new EtchedBorder());
 
                 textAreaInfo.setBorder(new EtchedBorder());
-                textAreaInfo.setText("You will see student or assignment info here.");
                 textAreaInfo.setEditable(false);
                 textAreaInfo.setLineWrap(true);
                 textAreaInfo.setWrapStyleWord(true);
@@ -101,7 +100,6 @@ public class FrameCourse extends JFrame {
                 panel_3_2.setBorder(new EtchedBorder());
 
                 textAreaComment.setBorder(new EtchedBorder());
-                textAreaComment.setText("Leave your comment here.");
                 textAreaComment.setLineWrap(true);
                 textAreaComment.setWrapStyleWord(true);
                 JScrollPane jScrollPaneComment = new JScrollPane(textAreaComment);
@@ -240,24 +238,26 @@ public class FrameCourse extends JFrame {
         });
 
         buttonStatistics.addActionListener(e -> { // show assignment statistics: mean, median, standard deviation
-            int column = tableGrades.getSelectedColumn();
-            if (column > 0) {
-                int assignmentIndex = column - 1;
-                List<Double> grades = new ArrayList<>();
-                for (Student student : course.getStudents()) {
-                    if (student.getGrades().get(assignmentIndex).getScore() != null) {
-                        grades.add(student.getGrades().get(assignmentIndex).getScore());
+            if (!subWindowExist()) {
+                int column = tableGrades.getSelectedColumn();
+                if (column > 0) {
+                    int assignmentIndex = column - 1;
+                    List<Double> grades = new ArrayList<>();
+                    for (Student student : course.getStudents()) {
+                        if (student.getGrades().get(assignmentIndex).getScore() != null) {
+                            grades.add(student.getGrades().get(assignmentIndex).getScore());
+                        }
                     }
+                    Double mean = Tools.mean(grades);
+                    Double median = Tools.median(grades);
+                    Double standardDeviation = Tools.standardDeviation(grades.toArray(new Double[grades.size()]));
+                    String statistics = "Mean: " + Tools.df_X_1.format(mean);
+                    statistics += "\nMedian: " + Tools.df_X_1.format(median);
+                    statistics += "\nStandard deviation: " + Tools.df_X_1.format(standardDeviation);
+                    JOptionPane.showMessageDialog(this, statistics, "STATISTICS", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "No assignment grade selected.", "NO SELECTION", JOptionPane.INFORMATION_MESSAGE);
                 }
-                Double mean = Tools.mean(grades);
-                Double median = Tools.median(grades);
-                Double standardDeviation = Tools.standardDeviation(grades.toArray(new Double[grades.size()]));
-                String statistics = "Mean: " + Tools.df_X_1.format(mean);
-                statistics += "\nMedian: " + Tools.df_X_1.format(median);
-                statistics += "\nStandard deviation: " + Tools.df_X_1.format(standardDeviation);
-                JOptionPane.showMessageDialog(this, statistics, "STATISTICS", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "No assignment selected.", "NO SELECTION", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
@@ -307,7 +307,7 @@ public class FrameCourse extends JFrame {
                     frameViewCategory.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     frameViewCategory.setVisible(true);
                 } else {
-                    JOptionPane.showMessageDialog(this, "No assignment selected.", "NO SELECTION", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "No assignment grade selected.", "NO SELECTION", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         });
