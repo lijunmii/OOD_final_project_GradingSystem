@@ -30,6 +30,39 @@ Among all these goals, we have implemented the Graphical User Interface, comment
 
 Object Diagram ( Note that a UML diagram that lists every class is meaningless. We are looking for a very simple but informative diagram, something as simple as what class of objects talk to other classes or depends on other classes of objects)
 
+class Client
+* This class acts as the user in the grading system. For example, it could represent a grader. It has attributes such as username, password and a list of courses. when register as a new user to the application, under the hood, it creates a new client and we transfer the Client object byte stream and saved in the database
+* The benefit of this class is that it represents users and abstracts what users possess in the application. It is simple to change and this class is throughput the entire application and links with many other classes.
+
+
+class Assignment
+* This class is an abstraction of Assignments in the grading system application. It contains many attributes such as category, name, full score, weight and others. An assignment could be a lab assignment, written assignment or any other assignment in different categories.
+* The benefit of this class is that having a single class of abstraction makes easier to modify the Assignments. For example, we only need to change one single class so we could add a new assignment.
+
+class Course
+* This class is an abstraction of courses in the grading system application we designed. It contains course name, course number, semester and many other attributes.
+* The benefit of this class is that every course should have similar properties and it makes sense to abstract them together into one class. It makes developer easier to maintain the courses in the system. For example, if in the future, we want to support more features about the course, we only need to modify this class.
+
+class Grade
+* We abstract grades into a class called Grade. The reason is that all grades should have similar properties such as weight, format and number.
+* The benefit of this class is that, in the future, if we have a new format of grading in terms of a customized grade, we only need to modify this Grade class.
+
+enum Season
+* It represents the four seasons we have for semesters.
+* It is an enum since it doesn’t normally change since a year only have 4 seasons. However, if we need to modify the Season for some reason, we only need to change this class for simplicity.
+
+class Semester
+* A semester contains which year it is and which season it is in. 
+* The benefit of this class is that if we need to add more information about the semester of a course, we only need to modify this course.
+
+class Student
+* This class represents each student as the object of grading system application. Each student has a name, id,  grades and many other attributes.
+* The benefit of this class is that as the major object of the application, Student should share properties and it is easier for developers to manage after abstracting into one single class.
+
+class StudentGrad/StudentUndergrad
+* These two classes extends the class Student since both undergrad and graduate student should share some similar attributes such as id, name, grade.
+* The benefit of this class is that it allows us not to repeat ourselves and prevent us from writing the same code for different classes.
+
 class SystemDatabase
 * This class serves as the database class within the application. From this class, it allows to connect/disconnect from the database. And it can read/write to the database as well.
 The benefit of this class is that having a single class that deals with the database operations makes things easier for developers to maintain/add/delete features of the application related to the database operations. From this single class, developers can control the data source and it is very easy to modify.
