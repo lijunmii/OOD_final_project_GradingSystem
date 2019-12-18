@@ -75,3 +75,7 @@ Object Justification (List out objects or class of objects (Do need to list ever
 class SystemDatabase
 * The reason we need to have this class is that it provides a single place for developers to maintain the database operations such as read, write to the database. Every database operation is called from this class and we then transfer them to other objects such as Client. It is important to have a database to use the persistent storage which saves the progress of the grading.
 
+
+
+# How to set up database:
+edit here
