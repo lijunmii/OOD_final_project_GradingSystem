@@ -26,7 +26,9 @@ If you don't want to setup database, you can test all functions in the no-db ver
 
 1. First install mysql@5.7, and set the root password as "pass" (without the quotes)
 2. Next, create a database called grading. In grading database, create a tabke: clientByte.
-    `mysql> create database grading;`
-    `use grading;`
-    `create table clientByte ( userName varchar(20), javaObject blob, primary key (userName));`
+```
+mysql> create database grading;
+use grading;
+create table clientByte ( userName varchar(20), javaObject blob, primary key (userName));
+```
 3. keep the database running, then you can test all functions.
